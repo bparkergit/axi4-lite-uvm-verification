@@ -119,7 +119,10 @@ always_ff @(posedge aclk) begin
 
         if(aw_valid && w_valid && !s_axi_bvalid) begin
 
-            regfile[awaddr_reg[3:2]] <= wdata_reg;
+            for(int i=0; i<DATA_WIDTH/8; i++) begin
+    if(s_axi_wstrb[i])
+        regfile[awaddr_reg[3:2]][8*i +:8] <= wdata_reg[8*i +:8];
+end
 
             s_axi_bvalid <= 1;
             s_axi_bresp  <= 2'b00; // OKAY

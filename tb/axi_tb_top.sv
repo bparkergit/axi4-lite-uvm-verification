@@ -103,6 +103,7 @@ axi4_lite_slave #(
       run_test("axi_base_test");
     end
   
+  
       // Use WLF format (recommended for Questa/ModelSim)
     initial begin
       $wlfdumpvars(0, axi_tb_top);   // dumps everything
