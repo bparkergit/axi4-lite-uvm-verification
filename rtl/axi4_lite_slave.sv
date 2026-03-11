@@ -1,91 +1,98 @@
 module axi4_lite_slave #(
-    parameter ADDR_WIDTH = 4,
+    parameter ADDR_WIDTH = 32,
     parameter DATA_WIDTH = 32
 )(
-    input  logic                     ACLK,
-    input  logic                     ARESETn,
-
-    // WRITE ADDRESS CHANNEL
-    input  logic [ADDR_WIDTH-1:0]    AWADDR,
-    input  logic                     AWVALID,
-    output logic                     AWREADY,
-
-    // WRITE DATA CHANNEL
-    input  logic [DATA_WIDTH-1:0]    WDATA,
-    input  logic [(DATA_WIDTH/8)-1:0] WSTRB,
-    input  logic                     WVALID,
-    output logic                     WREADY,
-
-    // WRITE RESPONSE CHANNEL
-    output logic [1:0]               BRESP,
-    output logic                     BVALID,
-    input  logic                     BREADY,
-
-    // READ ADDRESS CHANNEL
-    input  logic [ADDR_WIDTH-1:0]    ARADDR,
-    input  logic                     ARVALID,
-    output logic                     ARREADY,
-
-    // READ DATA CHANNEL
-    output logic [DATA_WIDTH-1:0]    RDATA,
-    output logic [1:0]               RRESP,
-    output logic                     RVALID,
-    input  logic                     RREADY
+    axi_if.DUT axi
 );
 
 logic [DATA_WIDTH-1:0] regfile [0:3];
 
-logic [ADDR_WIDTH-1:0] awaddr_reg;
-logic [ADDR_WIDTH-1:0] araddr_reg;
-
 logic write_en;
 logic read_en;
 
-assign write_en = AWVALID && WVALID && AWREADY && WREADY;
-assign read_en  = ARVALID && ARREADY;
+logic [ADDR_WIDTH-1:0] awaddr_reg;
+logic [ADDR_WIDTH-1:0] araddr_reg;
 
-always_ff @(posedge ACLK) begin
-    if(!ARESETn) begin
-        AWREADY <= 0;
-        WREADY  <= 0;
-        BVALID  <= 0;
-        BRESP   <= 0;
+assign write_en =
+    axi.s_axi_awvalid &&
+    axi.s_axi_wvalid  &&
+    axi.s_axi_awready &&
+    axi.s_axi_wready;
+
+assign read_en =
+    axi.s_axi_arvalid &&
+    axi.s_axi_arready;
+
+//////////////////////////////////////////////
+// WRITE CHANNEL
+//////////////////////////////////////////////
+
+always_ff @(posedge axi.aclk) begin
+    if(!axi.aresetn) begin
+        axi.s_axi_awready <= 0;
+        axi.s_axi_wready  <= 0;
+        axi.s_axi_bvalid  <= 0;
+        axi.s_axi_bresp   <= 0;
     end
     else begin
-        AWREADY <= !AWREADY && AWVALID;
-        WREADY  <= !WREADY  && WVALID;
 
+        // Accept address
+        if(!axi.s_axi_awready && axi.s_axi_awvalid)
+            axi.s_axi_awready <= 1;
+        else
+            axi.s_axi_awready <= 0;
+
+        // Accept data
+        if(!axi.s_axi_wready && axi.s_axi_wvalid)
+            axi.s_axi_wready <= 1;
+        else
+            axi.s_axi_wready <= 0;
+
+        // Write operation
         if(write_en) begin
-            awaddr_reg <= AWADDR;
-            regfile[AWADDR[3:2]] <= WDATA;
-            BVALID <= 1;
-            BRESP  <= 2'b00; // OKAY
+            awaddr_reg <= axi.s_axi_awaddr;
+
+            regfile[axi.s_axi_awaddr[3:2]] <= axi.s_axi_wdata;
+
+            axi.s_axi_bvalid <= 1;
+            axi.s_axi_bresp  <= 2'b00; // OKAY
         end
-        else if(BVALID && BREADY) begin
-            BVALID <= 0;
-        end
+
+        if(axi.s_axi_bvalid && axi.s_axi_bready)
+            axi.s_axi_bvalid <= 0;
+
     end
 end
 
-always_ff @(posedge ACLK) begin
-    if(!ARESETn) begin
-        ARREADY <= 0;
-        RVALID  <= 0;
-        RRESP   <= 0;
-        RDATA   <= 0;
+//////////////////////////////////////////////
+// READ CHANNEL
+//////////////////////////////////////////////
+
+always_ff @(posedge axi.aclk) begin
+    if(!axi.aresetn) begin
+        axi.s_axi_arready <= 0;
+        axi.s_axi_rvalid  <= 0;
+        axi.s_axi_rresp   <= 0;
+        axi.s_axi_rdata   <= 0;
     end
     else begin
-        ARREADY <= !ARREADY && ARVALID;
+
+        if(!axi.s_axi_arready && axi.s_axi_arvalid)
+            axi.s_axi_arready <= 1;
+        else
+            axi.s_axi_arready <= 0;
 
         if(read_en) begin
-            araddr_reg <= ARADDR;
-            RDATA <= regfile[ARADDR[3:2]];
-            RVALID <= 1;
-            RRESP  <= 2'b00;
+            araddr_reg <= axi.s_axi_araddr;
+
+            axi.s_axi_rdata <= regfile[axi.s_axi_araddr[3:2]];
+            axi.s_axi_rvalid <= 1;
+            axi.s_axi_rresp  <= 2'b00;
         end
-        else if(RVALID && RREADY) begin
-            RVALID <= 0;
-        end
+
+        if(axi.s_axi_rvalid && axi.s_axi_rready)
+            axi.s_axi_rvalid <= 0;
+
     end
 end
 
