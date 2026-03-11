@@ -37,37 +37,9 @@ module axi_tb_top;
     .aresetn(aresetn)
     );
 
-    axi4_lite_slave #(
-      .ADDR_WIDTH(ADDR_WIDTH),
-      .DATA_WIDTH(DATA_WIDTH)
-    ) dut (
-      .aclk(aclk), 
-      .aresetn(aresetn),
-
-      .s_axi_awaddr(axi_if_inst.s_axi_awaddr), 
-      .s_axi_awprot(axi_if_inst.s_axi_awprot), 
-      .s_axi_awvalid(axi_if_inst.s_axi_awvalid),
-      .s_axi_awready(axi_if_inst.s_axi_awready),
-
-      .s_axi_wdata(axi_if_inst.s_axi_wdata), 
-      .s_axi_wstrb(axi_if_inst.s_axi_wstrb), 
-      .s_axi_wvalid(axi_if_inst.s_axi_wvalid),
-      .s_axi_wready(axi_if_inst.s_axi_wready),
-      
-      .s_axi_bresp(axi_if_inst.s_axi_bresp), 
-      .s_axi_bvalid(axi_if_inst.s_axi_bvalid),
-      .s_axi_bready(axi_if_inst.s_axi_bready),
-
-      .s_axi_araddr(axi_if_inst.s_axi_araddr), 
-      .s_axi_arprot(axi_if_inst.s_axi_arprot),
-      .s_axi_arvalid(axi_if_inst.s_axi_arvalid),
-      .s_axi_arready(axi_if_inst.s_axi_arready),
-
-      .s_axi_rdata(axi_if_inst.s_axi_rdata),
-      .s_axi_rresp(axi_if_inst.s_axi_rresp),
-      .s_axi_rvalid(axi_if_inst.s_axi_rvalid),
-      .s_axi_rready(axi_if_inst.s_axi_rready)
-    );
+axi4_lite_slave dut(
+    .axi(axi_if_inst)
+);
 
       // Reset generation
     initial begin
