@@ -1,39 +1,36 @@
 interface axi_if #(
-    parameter int ADDR_WIDTH = 32,
-    parameter int DATA_WIDTH = 32
-) (
+    parameter ADDR_WIDTH = 32,
+    parameter DATA_WIDTH = 32
+)(
     input logic aclk,
     input logic aresetn
 );
 
-      // Write Address Channel
-  logic [ADDR_WIDTH-1:0] s_axi_awaddr;
-  logic [2:0] s_axi_awprot;   
-  logic s_axi_awvalid;  
-  logic s_axi_awready;
+logic [31:0] s_axi_awaddr;
+logic [2:0]  s_axi_awprot;
+logic        s_axi_awvalid;
+logic        s_axi_awready;
 
-    // Write Data Channel
-  logic [DATA_WIDTH-1:0] s_axi_wdata;
-  logic [DATA_WIDTH/8-1:0] s_axi_wstrb;
-  logic s_axi_wvalid;
-  logic s_axi_wready;
+logic [31:0] s_axi_wdata;
+logic [3:0]  s_axi_wstrb;
+logic        s_axi_wvalid;
+logic        s_axi_wready;
 
-    // Write Response Channel
-  logic [1:0] s_axi_bresp;   
-  logic s_axi_bvalid;
-  logic s_axi_bready;
+logic [1:0]  s_axi_bresp;
+logic        s_axi_bvalid;
+logic        s_axi_bready;
 
-    // Read Address Channel
-  logic [ADDR_WIDTH-1:0] s_axi_araddr;
-  logic [2:0] s_axi_arprot;
-  logic s_axi_arvalid;
-  logic s_axi_arready;
+logic [31:0] s_axi_araddr;
+logic [2:0]  s_axi_arprot;
+logic        s_axi_arvalid;
+logic        s_axi_arready;
 
-    // Read Data Channel
-  logic [DATA_WIDTH-1:0] s_axi_rdata;
-  logic [1:0] s_axi_rresp;
-  logic s_axi_rvalid;
-  logic s_axi_rready;
+logic [31:0] s_axi_rdata;
+logic [1:0]  s_axi_rresp;
+logic        s_axi_rvalid;
+logic        s_axi_rready;
+
+
   
   
   clocking cb_drv @(posedge aclk);
