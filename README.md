@@ -11,17 +11,17 @@ UVM testbench for a 4-entry AXI4 Lite slave interface (32-bit data width).
 
 ## Verification Plan
 1️⃣ Basic Write & Read Functionality
-Write operations:
-Send AW + W to an address.
-Check BVALID/BREADY handshake occurs.
-Verify the register file actually contains the written value.
-Read operations:
-Send AR to an address.
-Check RVALID/RREADY handshake occurs.
-Verify read data matches expected register content.
-Corner cases:
-Write then immediately read the same address.
-Read before write to ensure reset values are correct.
+- Write operations:
+- Send AW + W to an address.
+- Check BVALID/BREADY handshake occurs.
+- Verify the register file actually contains the written value.
+- Read operations:
+- Send AR to an address.
+- Check RVALID/RREADY handshake occurs.
+- Verify read data matches expected register content.
+- Corner cases:
+- Write then immediately read the same address.
+- Read before write to ensure reset values are correct.
 
 2️⃣ AXI4-Lite Protocol Rules
 Handshake rules:
