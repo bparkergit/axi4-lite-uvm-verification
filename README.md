@@ -11,7 +11,8 @@ UVM testbench for a 4-entry AXI4 Lite slave interface (32-bit data width).
 
 ## Verification Plan
 1️⃣ Basic Write & Read Functionality
-- Write operations:
+
+Write operations:
 - Send AW + W to an address.
 - Check BVALID/BREADY handshake occurs.
 - Verify the register file actually contains the written value.
@@ -24,7 +25,8 @@ UVM testbench for a 4-entry AXI4 Lite slave interface (32-bit data width).
 - Read before write to ensure reset values are correct.
 
 2️⃣ AXI4-Lite Protocol Rules
-- Handshake rules:
+
+Handshake rules:
 - AWREADY must only assert when the slave is ready.
 - WREADY must only assert when the slave can accept data.
 - BVALID must be generated only after AW and W have both been captured.
@@ -32,18 +34,19 @@ UVM testbench for a 4-entry AXI4 Lite slave interface (32-bit data width).
 - RVALID must be valid after AR has been accepted.
 - Single-cycle handshakes:
 - Test that AW/W/AR/R handshakes can occur on same cycle or different cycles.
+
 3️⃣ Out-of-Order / Backpressure Scenarios
-- Even though AXI4-Lite is simple:
 - Write AW arrives before W
 - Write W arrives before AW
 - AW and W arrive together
-- Your slave must handle all of these correctly.
+- slave must handle all of these correctly.
 - BVALID only asserted once both AW + W received.
 - Read AR arrives while write in progress
 - Verify read does not overwrite write data or return stale data.
 
 4️⃣ Reset Behavior
-- Assert aresetn at different times:
+
+Assert aresetn at different times:
 - While a write is in progress.
 - While a read is in progress.
 - Verify:
@@ -51,20 +54,23 @@ UVM testbench for a 4-entry AXI4 Lite slave interface (32-bit data width).
 - AXI handshake signals return to idle state.
 
 5️⃣ Multiple Registers / Address Decoding
-- regfile[0:3]
-- Verify:
+
+regfile[0:3]
+
+  Verify:
 - Writes go to correct addresses (mask using ADDR[3:2]).
 - Reads return the correct data for the requested address.
 - Out-of-range addresses are either ignored or generate 2'b10 (SLVERR) if you implement it.
 
 6️⃣ Protocol Assertions / Coverage
-- Assertions in interface:
+
+Assertions in interface:
 - AWVALID |-> ##[0:16] AWREADY (already in your interface).
 - WVALID |-> ##[0:16] WREADY
 - ARVALID |-> ##[0:16] ARREADY
 - RVALID |-> ##[0:16] RREADY
 
-- Functional coverage:
+Functional coverage:
 - All addresses written at least once.
 - All registers read at least once.
 - All handshake scenarios (AW→W, W→AW, same-cycle) covered.
