@@ -16,7 +16,8 @@ Write operations:
 - Send AW + W to an address.
 - Check BVALID/BREADY handshake occurs.
 - Verify the register file actually contains the written value.
-- Read operations:
+
+Read operations:
 - Send AR to an address.
 - Check RVALID/RREADY handshake occurs.
 - Verify read data matches expected register content.
