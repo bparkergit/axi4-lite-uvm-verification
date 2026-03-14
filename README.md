@@ -33,7 +33,8 @@ Handshake rules:
 - BVALID must be generated only after AW and W have both been captured.
 - ARREADY must assert only when slave can accept read address.
 - RVALID must be valid after AR has been accepted.
-- Single-cycle handshakes:
+
+Single-cycle handshakes:
 - Test that AW/W/AR/R handshakes can occur on same cycle or different cycles.
 
 3️⃣ Out-of-Order / Backpressure Scenarios
@@ -50,7 +51,8 @@ Handshake rules:
 Assert aresetn at different times:
 - While a write is in progress.
 - While a read is in progress.
-- Verify:
+
+Verify:
 - Registers reset to default value (usually 0).
 - AXI handshake signals return to idle state.
 
