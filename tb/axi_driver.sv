@@ -16,7 +16,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
           
       
        
-   	task run_phase(uvm_phase phase);
+task run_phase(uvm_phase phase);
         axi_seq_item item; 
         vif.cb_drv.s_axi_awvalid <= 0;
 		vif.cb_drv.s_axi_wvalid  <= 0;
@@ -27,36 +27,63 @@ class axi_driver extends uvm_driver #(axi_seq_item);
         
         forever begin
           seq_item_port.get_next_item(item);
-          
+        
           if(item.s_axi_wvalid)
-              drive_write(item);
+            begin
+                if($urandom_range(0,1)) begin
+                    fork
+                        drive_aw_channel(item);
+                        drive_w_channel(item);
+                    join
+                  
+                end 
+                else begin
+                    fork
+                        drive_w_channel(item);
+                        drive_aw_channel(item);
+                    join
+                end
+              
+              // Write response channel wait for bvalid
+              vif.cb_drv.s_axi_bready <= 1;
+
+              wait(vif.cb_drv.s_axi_bvalid);
+              @(vif.cb_drv);
+              vif.cb_drv.s_axi_bready <= 0;
+              
+          end
           else if(item.s_axi_arvalid)
-              drive_read(item);
+                drive_read(item);
          
           
             seq_item_port.item_done();
         end
-    endtask
+endtask
         
-    task drive_write(axi_seq_item item);
+task drive_aw_channel(axi_seq_item item);
 
-      fork
-        
-        begin
         // Address channel
+        repeat($urandom_range(0,3)) @(vif.cb_drv); // random delayed start
+          
         vif.cb_drv.s_axi_awaddr  <= item.s_axi_awaddr;
 
         // Write address valid wait for ready
         vif.cb_drv.s_axi_awvalid <= 1;
 
         wait(vif.cb_drv.s_axi_awready);
-        @(posedge vif.cb_drv);
+        @(vif.cb_drv);
         vif.cb_drv.s_axi_awvalid <= 0;
 
-        end
+
+  	endtask
         
-        begin
+    
+ task drive_w_channel(axi_seq_item item);
+
+
         // Data channel
+        repeat($urandom_range(0,3)) @(vif.cb_drv);
+          
         vif.cb_drv.s_axi_wdata  <= item.s_axi_wdata;
         vif.cb_drv.s_axi_wstrb  <= item.s_axi_wstrb;
 
@@ -64,23 +91,15 @@ class axi_driver extends uvm_driver #(axi_seq_item);
         vif.cb_drv.s_axi_wvalid <= 1;
 
         wait(vif.cb_drv.s_axi_wready);
-        @(posedge vif.cb_drv);
+        @(vif.cb_drv);
         vif.cb_drv.s_axi_wvalid <= 0;
-        end
 
-      join
-      
-    // Write response channel wait for valid
-    vif.cb_drv.s_axi_bready <= 1;
 
-    wait(vif.cb_drv.s_axi_bvalid);
-    @(posedge vif.cb_drv);
-    vif.cb_drv.s_axi_bready <= 0;
 
-  	endtask
+endtask
         
         
-    task drive_read(axi_seq_item item); 
+task drive_read(axi_seq_item item); 
       
       vif.cb_drv.s_axi_araddr <= item.s_axi_araddr;
       vif.cb_drv.s_axi_arprot   <= item.s_axi_arprot;
@@ -90,7 +109,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
       vif.cb_drv.s_axi_arvalid   <= 1;
       
       wait(vif.cb_drv.s_axi_arready);
-      @(posedge vif.cb_drv);
+      @(vif.cb_drv);
       vif.cb_drv.s_axi_arvalid <= 0;
       
       // Data ready wait for valid then ready goes low
@@ -100,7 +119,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
       @(vif.cb_drv);
       vif.cb_drv.s_axi_rready <= 0;
       
-    endtask
+endtask
         
         
 endclass
