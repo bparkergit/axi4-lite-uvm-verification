@@ -9,6 +9,21 @@ class axi_base_sequence extends uvm_sequence #(axi_seq_item);
         axi_seq_item item;
         bit [31:0] write_addr;
 
+      
+      // read from a random unititialized reg
+            item = axi_seq_item::type_id::create("item");
+            start_item(item);
+            assert(item.randomize() with {
+                s_axi_wvalid == 0;
+              	s_axi_araddr inside {0, 4, 8, 12};
+                s_axi_rready == 1'b1;
+            }) else `uvm_error("RAND_FAIL", "Read randomization failed")
+
+              `uvm_info("SEQ", $sformatf("READ:  addr=0x%08h", item.s_axi_araddr), UVM_LOW)
+
+            finish_item(item);
+      
+      
         repeat(30) begin   // 30 pairs → 60 txns
       
             // Step 1: WRITE
