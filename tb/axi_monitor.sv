@@ -52,6 +52,7 @@ class axi_monitor extends uvm_monitor;
              txn.s_axi_wdata = wdata;
              txn.s_axi_wstrb = wstrb;
              txn.s_axi_wvalid  = 1'b1;
+             txn.s_axi_wready  = 1'b1;
             
           
             // Write Response handshake
@@ -79,8 +80,10 @@ class axi_monitor extends uvm_monitor;
      
                 txn.s_axi_araddr = araddr;
                 txn.s_axi_arprot = arprot;
-              
+              	txn.s_axi_rvalid = 1'b1;
+              	txn.s_axi_rready = 1'b1;
                 ap.write(txn);
+              
             end
         end
     endtask
