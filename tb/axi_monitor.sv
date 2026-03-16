@@ -23,9 +23,8 @@ class axi_monitor extends uvm_monitor;
       bit w_seen = 1'b0;
       logic [31:0] awaddr,araddr;
       logic [2:0] awprot,arprot;
-      logic [31:0] wdata,rdata;
+      logic [31:0] wdata;
       logic [3:0] wstrb;
-      logic [1:0] rresp;
  
         forever begin
             @(vif.cb_mon);  // sample every clock
@@ -75,13 +74,11 @@ class axi_monitor extends uvm_monitor;
             // Read Data handshake 
             if (vif.cb_mon.s_axi_rvalid && vif.cb_mon.s_axi_rready) begin
               	txn = axi_seq_item::type_id::create("txn");
-                rdata   = vif.cb_mon.s_axi_rdata;
-                rresp   = vif.cb_mon.s_axi_rresp;
+                txn.s_axi_rdata   = vif.cb_mon.s_axi_rdata;
+                txn.s_axi_rresp   = vif.cb_mon.s_axi_rresp;
      
                 txn.s_axi_araddr = araddr;
                 txn.s_axi_arprot = arprot;
-                txn.s_axi_rdata = rdata;
-                txn.s_axi_rresp = rresp;
               
                 ap.write(txn);
             end
