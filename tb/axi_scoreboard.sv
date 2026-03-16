@@ -63,7 +63,7 @@ class axi_scoreboard extends uvm_scoreboard;
         end
 
         // Handle reads
-        if (txn.s_axi_rvalid && txn.s_axi_rready) begin
+      if (txn.s_axi_rvalid && txn.s_axi_rready) begin
             addr = txn.s_axi_araddr & ~32'h3;
 
             expected = model_mem.exists(addr) ? model_mem[addr] : 0;
@@ -96,7 +96,7 @@ class axi_scoreboard extends uvm_scoreboard;
             model_mem.delete();
             write_count = 0;
             read_count  = 0;
-            `uvm_info("SCB_RST", "Scoreboard model cleared on reset", UVM_LOW)
+          `uvm_info("SCB_RST", "Scoreboard model cleared on reset", UVM_LOW)
         end
     endtask
 
