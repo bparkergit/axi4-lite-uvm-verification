@@ -45,10 +45,14 @@ class axi_coverage extends uvm_subscriber #(axi_seq_item) ;
         
 
 
-      // Cover the cases where AW happens before W and W happens before AW
+      // Cover the cases where AW happens before W and W happens before AW need to use $realtime
       
     cross s_axi_awvalid, s_axi_wvalid;
       
+    cross s_axi_awvalid, s_axi_awready;
+    cross s_axi_wvalid, s_axi_wready;
+    cross s_axi_rvalid, s_axi_rready;  
+    cross s_axi_bvalid, s_axi_bready; 
       
     endgroup
        
