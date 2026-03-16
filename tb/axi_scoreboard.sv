@@ -43,7 +43,7 @@ class axi_scoreboard extends uvm_scoreboard;
     virtual function void write(axi_seq_item txn);
 
         // Handle writes
-        if (txn.s_axi_wvalid && txn.s_axi_wready) begin
+      if (txn.s_axi_wvalid && txn.s_axi_wready) begin
             addr = txn.s_axi_awaddr & ~32'h3;  // word-aligned
 
             current = model_mem.exists(addr) ? model_mem[addr] : 0;
@@ -59,7 +59,7 @@ class axi_scoreboard extends uvm_scoreboard;
 
             write_count++;
             `uvm_info("SCB_WR", $sformatf("Write addr 0x%08h: data=0x%08h (wstrb=0x%h)", 
-                                          addr, masked_data, txn.s_axi_wstrb), UVM_MEDIUM)
+                                          addr, masked_data, txn.s_axi_wstrb), UVM_LOW)
         end
 
         // Handle reads
@@ -70,7 +70,7 @@ class axi_scoreboard extends uvm_scoreboard;
 
             read_count++;
             `uvm_info("SCB_RD", $sformatf("Read addr 0x%08h: got=0x%08h  exp=0x%08h", 
-                                          addr, txn.s_axi_rdata, expected), UVM_MEDIUM)
+                                          addr, txn.s_axi_rdata, expected), UVM_LOW)
 
             // Check for X/Z
             if ($isunknown(txn.s_axi_rdata)) begin
@@ -84,7 +84,7 @@ class axi_scoreboard extends uvm_scoreboard;
                            $sformatf("Addr 0x%08h: exp 0x%08h  got 0x%08h", 
                                      addr, expected, txn.s_axi_rdata))
             end else begin
-                `uvm_info("MATCH", $sformatf("Addr 0x%08h: 0x%08h OK", addr, txn.s_axi_rdata), UVM_MEDIUM)
+              `uvm_info("MATCH", $sformatf("Addr 0x%08h: 0x%08h OK", addr, txn.s_axi_rdata), UVM_LOW)
             end
         end
     endfunction
