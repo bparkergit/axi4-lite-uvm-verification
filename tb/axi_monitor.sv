@@ -60,7 +60,7 @@ class axi_monitor extends uvm_monitor;
                 ap.write(txn);
               
               @(vif.cb_mon);
-              vif.cb_mon.s_axi_bready = 1'b0;
+
               w_seen = 1'b0;
               aw_seen = 1'b0;
             end
@@ -74,13 +74,14 @@ class axi_monitor extends uvm_monitor;
 
             // Read Data handshake 
             if (vif.cb_mon.s_axi_rvalid && vif.cb_mon.s_axi_rready) begin
+              	txn = axi_seq_item::type_id::create("txn");
                 rdata   = vif.cb_mon.s_axi_rdata;
                 rresp   = vif.cb_mon.s_axi_rresp;
      
-              txn.s_axi_araddr = araddr;
-              txn.s_axi_arprot = arprot;
-              txn.s_axi_rdata = rdata;
-              txn.s_axi_rresp = rresp;
+                txn.s_axi_araddr = araddr;
+                txn.s_axi_arprot = arprot;
+                txn.s_axi_rdata = rdata;
+                txn.s_axi_rresp = rresp;
               
                 ap.write(txn);
             end
