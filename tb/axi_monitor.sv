@@ -19,61 +19,69 @@ class axi_monitor extends uvm_monitor;
 
     task run_phase(uvm_phase phase);
       axi_seq_item txn;
+      bit aw_seen = 1'b0;
+      bit w_seen = 1'b0;
+      logic [31:0] awaddr,araddr;
+      logic [2:0] awprot,arprot;
+      logic [31:0] wdata,rdata;
+      logic [3:0] wstrb;
+      logic [1:0] rresp;
+ 
         forever begin
             @(vif.cb_mon);  // sample every clock
 
           	txn = null;
+          
             // Write Address handshake
-            if (vif.cb_mon.s_axi_awvalid && vif.cb_mon.s_axi_awready) begin
-                txn = axi_seq_item::type_id::create("txn");
-                txn.s_axi_awaddr  = vif.cb_mon.s_axi_awaddr;
-                txn.s_axi_awprot  = vif.cb_mon.s_axi_awprot;
-                txn.s_axi_awvalid = 1'b1;
-                txn.s_axi_awready = 1'b1;
-                ap.write(txn);
-                txn = null;
+            if (vif.cb_mon.s_axi_awvalid && vif.cb_mon.s_axi_awready) begin 
+                awaddr  = vif.cb_mon.s_axi_awaddr;
+                awprot  = vif.cb_mon.s_axi_awprot;
+                aw_seen = 1'b1;
             end
 
             // Write Data handshake
             if (vif.cb_mon.s_axi_wvalid && vif.cb_mon.s_axi_wready) begin
-                txn = axi_seq_item::type_id::create("txn");
-                txn.s_axi_wdata   = vif.cb_mon.s_axi_wdata;
-                txn.s_axi_wstrb   = vif.cb_mon.s_axi_wstrb;
-                txn.s_axi_wvalid  = 1'b1;
-                txn.s_axi_wready  = 1'b1;
-                ap.write(txn);
-                txn = null;
+                wdata   = vif.cb_mon.s_axi_wdata;
+                wstrb   = vif.cb_mon.s_axi_wstrb;
+                w_seen = 1'b1;
             end
 
+          if(w_seen && aw_seen) begin
+             txn = axi_seq_item::type_id::create("txn"); 
+             txn.s_axi_awaddr = awaddr;
+             txn.s_axi_awprot = awprot;
+             txn.s_axi_wdata = wdata;
+             txn.s_axi_wstrb = wstrb;
+             txn.s_axi_wvalid  = 1'b1;
+            
+          
             // Write Response handshake
             if (vif.cb_mon.s_axi_bvalid && vif.cb_mon.s_axi_bready) begin
-                txn = axi_seq_item::type_id::create("txn");
-                txn.s_axi_bresp   = vif.cb_mon.s_axi_bresp;
-                txn.s_axi_bvalid  = 1'b1;
-                txn.s_axi_bready  = 1'b1;
                 ap.write(txn);
-                txn = null;
+              
+              @(vif.cb_mon);
+              vif.cb_mon.s_axi_bready = 1'b0;
+              w_seen = 1'b0;
+              aw_seen = 1'b0;
             end
+          end
 
             // Read Address handshake
             if (vif.cb_mon.s_axi_arvalid && vif.cb_mon.s_axi_arready) begin
-                txn = axi_seq_item::type_id::create("txn");
-                txn.s_axi_araddr  = vif.cb_mon.s_axi_araddr;
-                txn.s_axi_arprot  = vif.cb_mon.s_axi_arprot;
-                txn.s_axi_arvalid = 1'b1;
-                txn.s_axi_arready = 1'b1;
-                ap.write(txn);
-                txn = null;
+                araddr  = vif.cb_mon.s_axi_araddr;
+                arprot  = vif.cb_mon.s_axi_arprot;        
             end
 
-            // Read Data handshake (this is what scoreboard needs for comparison)
+            // Read Data handshake 
             if (vif.cb_mon.s_axi_rvalid && vif.cb_mon.s_axi_rready) begin
-                txn = axi_seq_item::type_id::create("txn");
-                txn.s_axi_rdata   = vif.cb_mon.s_axi_rdata;
-                txn.s_axi_rresp   = vif.cb_mon.s_axi_rresp;
-                txn.s_axi_rvalid  = 1'b1;
-                txn.s_axi_rready  = 1'b1;
-                txn.s_axi_araddr  = vif.cb_mon.s_axi_araddr;  // latch current araddr (may be stale, but better than nothing)
+                rdata   = vif.cb_mon.s_axi_rdata;
+                rresp   = vif.cb_mon.s_axi_rresp;
+     
+              txn.s_axi_araddr = araddr;
+              txn.s_axi_arprot = arprot;
+              txn.s_axi_rdata = rdata;
+              txn.s_axi_rresp = rresp;
+              
                 ap.write(txn);
             end
         end
