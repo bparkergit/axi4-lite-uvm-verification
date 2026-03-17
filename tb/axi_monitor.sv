@@ -65,6 +65,7 @@ class axi_monitor extends uvm_monitor;
              txn.is_write = 1'b1;
            
 
+            // time aw and w were seen (for ordering)
                 if (aw_time < w_time)
                   txn.aw_w_order = AW_FIRST;
                 else if (w_time < aw_time)
@@ -100,6 +101,7 @@ class axi_monitor extends uvm_monitor;
                 txn.s_axi_arprot = arprot;
               	txn.s_axi_rvalid = 1'b1;
               	txn.s_axi_rready = 1'b1;
+                txn.aw_w_order = SAME;
                 ap.write(txn);
               
             end
