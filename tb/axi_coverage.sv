@@ -1,103 +1,75 @@
 class axi_coverage extends uvm_subscriber #(axi_seq_item) ;
   
   `uvm_component_utils(axi_coverage)
+      typedef enum {AW_FIRST, W_FIRST, SAME} order_e;
   
-    covergroup cg_transaction with function sample(
-    // Write Address Channel
-    bit   [32-1:0]    s_axi_awaddr,
-    bit   [2:0]               s_axi_awprot,
-    bit                       s_axi_awvalid,
-    bit                      s_axi_awready,
+    bit        is_write;
+    bit [31:0] addr;
+    bit [1:0]  resp;
 
-    // Write Data Channel
-    bit   [32-1:0]    s_axi_wdata,
-    bit   [32/8-1:0]  s_axi_wstrb,
-    bit                       s_axi_wvalid,
-    bit                      s_axi_wready,
+  
+  	int aw_w_order;
+  
+    covergroup cg_transaction;
 
-    // Write Response Channel
-    bit  [1:0]               s_axi_bresp,
-    bit                      s_axi_bvalid,
-    bit                       s_axi_bready,
+    cp_is_write : coverpoint is_write {
+    bins read  = {0};
+    bins write = {1};
+  	}
+    
+    cp_addr : coverpoint addr {
+    bins reg0 = {0};
+    bins reg1 = {4};
+    bins reg2 = {8};
+    bins reg3 = {12};
+    }
+    
 
-    // Read Address Channel
-    bit   [32-1:0]    s_axi_araddr,
-    bit   [2:0]               s_axi_arprot,
-    bit                       s_axi_arvalid,
-    bit                      s_axi_arready,
-
-    // Read Data Channel
-    bit  [32-1:0]    s_axi_rdata,
-    bit  [1:0]               s_axi_rresp,
-    bit                      s_axi_rvalid,
-    bit                       s_axi_rready
-  );
+    cp_resp : coverpoint resp {
+    bins OKAY   = {2'b00};
+    bins SLVERR = {2'b10};
+    }
+    
+    
+    cp_aw_w_order : coverpoint aw_w_order {
+      bins aw_first = {AW_FIRST};
+      bins w_first  = {W_FIRST};
+      bins same     = {SAME};
+    }
       
-    coverpoint s_axi_awvalid {
-          bins low   = {0};
-          bins high  = {1};
-        }
-
-    coverpoint s_axi_wvalid {
-          bins low  = {0};
-          bins high  = {1};
-        }
-        
-
-
+      
       // Cover the cases where AW happens before W and W happens before AW need to use $realtime
       
-    cross s_axi_awvalid, s_axi_wvalid;
-      
-    cross s_axi_awvalid, s_axi_awready;
-    cross s_axi_wvalid, s_axi_wready;
-    cross s_axi_rvalid, s_axi_rready;  
-    cross s_axi_bvalid, s_axi_bready; 
+  cross cp_is_write, cp_addr;
+  cross cp_aw_w_order, cp_is_write;
       
     endgroup
+  
        
-   function new(string name="fifo_coverage", uvm_component parent);
+  function new(string name="axi_coverage", uvm_component parent);
           super.new(name, parent);
           cg_transaction = new();
           cg_transaction.set_inst_name("cg_transaction");  // helps reporting
     endfunction
   
+  
     // This is called automatically via analysis_export
     virtual function void write(axi_seq_item t);
-    // debug
       `uvm_info("COV_SAMPLE", $sformatf("Sampling txn: s_axi_wvalid=%0b s_axi_arready=%0b",t.s_axi_wvalid, t.s_axi_arready), UVM_MEDIUM)
-   
-    // Pass relevant fields to the covergroup's sample function
-    cg_transaction.sample(
-    // Write Address Channel
-    .s_axi_awaddr(t.s_axi_awaddr),
-    .s_axi_awprot(t.s_axi_awprot),
-    .s_axi_awvalid(t.s_axi_awvalid),
-    .s_axi_awready(t.s_axi_awready),
+      
+        is_write = t.is_write;
+        if (is_write)
+          addr = t.s_axi_awaddr;
+        else
+          addr = t.s_axi_araddr;
+      
+        resp     = t.s_axi_bresp;
+        aw_w_order = t.aw_w_order;
+      
+        cg_transaction.sample();
 
-    // Write Data Channel
-    .s_axi_wdata(t.s_axi_wdata),
-    .s_axi_wstrb(t.s_axi_wstrb),
-    .s_axi_wvalid(t.s_axi_wvalid),
-    .s_axi_wready(t.s_axi_wready),
-
-    // Write Response Channel
-    .s_axi_bresp(t.s_axi_bresp),
-    .s_axi_bvalid(t.s_axi_bvalid),
-    .s_axi_bready(t.s_axi_bready),
-
-    // Read Address Channel
-    .s_axi_araddr(t.s_axi_araddr),
-    .s_axi_arprot(t.s_axi_arprot),
-    .s_axi_arvalid(t.s_axi_arvalid),
-    .s_axi_arready(t.s_axi_arready),
-
-    // Read Data Channel
-    .s_axi_rdata(t.s_axi_rdata),
-    .s_axi_rresp(t.s_axi_rresp),
-    .s_axi_rvalid(t.s_axi_rvalid),
-    .s_axi_rready(t.s_axi_rready)
-    );
   endfunction
+  
+  
   
 endclass
