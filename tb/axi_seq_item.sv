@@ -45,13 +45,14 @@ class axi_seq_item extends uvm_sequence_item;
       r_delay  dist {0 := 5, [1:5] := 5};
     }
   
-  constraint aw_limit {
-    s_axi_awaddr inside {0, 4, 8, 12};
-  }
-    constraint ar_limit {
-    s_axi_araddr inside {0, 4, 8, 12};
-  }
-  
+    constraint aw_cons {
+      s_axi_awaddr inside {0, 4, 8, 12};
+    }
+    
+    constraint ar_cons {
+      s_axi_araddr inside {0, 4, 8, 12};
+    }
+	
 
   
     function new(string name = "axi_seq_item");
