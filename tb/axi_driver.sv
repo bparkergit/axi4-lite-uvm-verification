@@ -28,10 +28,10 @@ task run_phase(uvm_phase phase);
         forever begin
           seq_item_port.get_next_item(item);
         
-          if(item.s_axi_wvalid)
+          if(item.is_write)
             begin
                 if($urandom_range(0,1)) begin
-                    fork
+                    fork // whole packed write comes in stagger and fiddle w and aw channels
                         drive_aw_channel(item);
                         drive_w_channel(item);
                     join
@@ -52,7 +52,7 @@ task run_phase(uvm_phase phase);
               vif.cb_drv.s_axi_bready <= 0;
               
           end
-          else if(item.s_axi_arvalid)
+          else 
                 drive_read(item);
          
           
@@ -63,7 +63,7 @@ endtask
 task drive_aw_channel(axi_seq_item item);
 
         // Address channel
-        repeat($urandom_range(0,3)) @(vif.cb_drv); // random delayed start
+  repeat(item.aw_delay) @(vif.cb_drv); // random delayed start
           
         vif.cb_drv.s_axi_awaddr  <= item.s_axi_awaddr;
 
@@ -82,7 +82,7 @@ task drive_aw_channel(axi_seq_item item);
 
 
         // Data channel
-        repeat($urandom_range(0,3)) @(vif.cb_drv);
+   repeat(item.w_delay) @(vif.cb_drv);
           
         vif.cb_drv.s_axi_wdata  <= item.s_axi_wdata;
         vif.cb_drv.s_axi_wstrb  <= item.s_axi_wstrb;
@@ -101,6 +101,10 @@ endtask
         
 task drive_read(axi_seq_item item); 
       
+  		// READ
+  
+  repeat(item.r_delay) @(vif.cb_drv); // random delayed start
+  
       vif.cb_drv.s_axi_araddr <= item.s_axi_araddr;
       vif.cb_drv.s_axi_arprot   <= item.s_axi_arprot;
      
