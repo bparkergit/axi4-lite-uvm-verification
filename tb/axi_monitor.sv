@@ -3,6 +3,9 @@ class axi_monitor extends uvm_monitor;
 
     uvm_analysis_port #(axi_seq_item) ap;
 
+  
+    typedef enum {AW_FIRST, W_FIRST, SAME} order_e;
+
     virtual axi_if.MONITOR vif;
 
     function new(string name = "axi_monitor", uvm_component parent);
@@ -25,17 +28,22 @@ class axi_monitor extends uvm_monitor;
       logic [2:0] awprot,arprot;
       logic [31:0] wdata;
       logic [3:0] wstrb;
- 
+      
+      time aw_time, w_time;
+      
         forever begin
             @(vif.cb_mon);  // sample every clock
 
           	txn = null;
+          
+
           
             // Write Address handshake
             if (vif.cb_mon.s_axi_awvalid && vif.cb_mon.s_axi_awready) begin 
                 awaddr  = vif.cb_mon.s_axi_awaddr;
                 awprot  = vif.cb_mon.s_axi_awprot;
                 aw_seen = 1'b1;
+                aw_time = $time;
             end
 
             // Write Data handshake
@@ -43,6 +51,7 @@ class axi_monitor extends uvm_monitor;
                 wdata   = vif.cb_mon.s_axi_wdata;
                 wstrb   = vif.cb_mon.s_axi_wstrb;
                 w_seen = 1'b1;
+              	w_time = $time;
             end
 
           if(w_seen && aw_seen) begin
@@ -53,8 +62,17 @@ class axi_monitor extends uvm_monitor;
              txn.s_axi_wstrb = wstrb;
              txn.s_axi_wvalid  = 1'b1;
              txn.s_axi_wready  = 1'b1;
+             txn.is_write = 1'b1;
+           
+
+                if (aw_time < w_time)
+                  txn.aw_w_order = AW_FIRST;
+                else if (w_time < aw_time)
+                  txn.aw_w_order = W_FIRST;
+                else
+                  txn.aw_w_order = SAME;
+
             
-          
             // Write Response handshake
             if (vif.cb_mon.s_axi_bvalid && vif.cb_mon.s_axi_bready) begin
                 ap.write(txn);
