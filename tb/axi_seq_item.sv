@@ -4,14 +4,14 @@ class axi_seq_item extends uvm_sequence_item;
   `uvm_object_param_utils(axi_seq_item)
   
     // Write Address Channel
-  rand  bit [32-1:0]    s_axi_awaddr;
+    rand  bit [32-1:0]    s_axi_awaddr;
     rand  bit [2:0]               s_axi_awprot;
     rand  bit                     s_axi_awvalid;
     bit                    		  s_axi_awready;
-
+	
     // Write Data Channel
-  rand  bit [32-1:0]    s_axi_wdata;
-  rand  bit [32/8-1:0]  s_axi_wstrb;
+    rand  bit [32-1:0]    s_axi_wdata;
+    rand  bit [32/8-1:0]  s_axi_wstrb;
     rand  bit                     s_axi_wvalid;
     bit                      	  s_axi_wready;
 
@@ -21,22 +21,40 @@ class axi_seq_item extends uvm_sequence_item;
     rand  bit          		      s_axi_bready;
 
     // Read Address Channel
-  rand  bit [32-1:0]    s_axi_araddr;
+    rand  bit [32-1:0]    s_axi_araddr;
     rand  bit [2:0]               s_axi_arprot;
     rand  bit                     s_axi_arvalid;
     bit                  		  s_axi_arready;
 
     // Read Data Channel
-  bit  [32-1:0]   	  s_axi_rdata;
+    bit  [32-1:0]   	  s_axi_rdata;
     bit  [1:0]     				  s_axi_rresp;
     bit					  		  s_axi_rvalid;
     rand  bit                	  s_axi_rready;
   
-    constraint rready_default_c {
-         s_axi_rready == 1'b1;   // default = always ready
+  
+  	rand int aw_delay;
+  	rand int w_delay;
+  	rand int r_delay;
+  	rand	bit	is_write;
+    rand int aw_w_order;
+  
+    constraint delay_dist {
+      aw_delay dist {0 := 1, [1:5] := 9};
+      w_delay  dist {0 := 1, [1:5] := 9};
+      r_delay  dist {0 := 5, [1:5] := 5};
     }
   
-  function new(string name = "axi_seq_item");
+  constraint aw_limit {
+    s_axi_awaddr inside {0, 4, 8, 12};
+  }
+    constraint ar_limit {
+    s_axi_araddr inside {0, 4, 8, 12};
+  }
+  
+
+  
+    function new(string name = "axi_seq_item");
         super.new(name);
     endfunction
   
