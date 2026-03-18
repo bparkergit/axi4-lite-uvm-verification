@@ -1,111 +1,82 @@
-class axi_monitor extends uvm_monitor;
-    `uvm_component_utils(axi_monitor)
-
-    uvm_analysis_port #(axi_seq_item) ap;
+class axi_coverage extends uvm_subscriber #(axi_seq_item) ;
+  
+  `uvm_component_utils(axi_coverage)
+      typedef enum {AW_FIRST, W_FIRST, SAME} order_e;
+  
+    bit        is_write;
+    bit [31:0] addr;
+    bit [1:0]  resp;
 
   
-    typedef enum {AW_FIRST, W_FIRST, SAME} order_e;
+  	int aw_w_order;
+  
+    covergroup cg_transaction;
 
-    virtual axi_if.MONITOR vif;
+    cp_is_write : coverpoint is_write {
+    bins read  = {0};
+    bins write = {1};
+  	}
+    
+    cp_addr : coverpoint addr {
+    bins reg0 = {0};
+    bins reg1 = {4};
+    bins reg2 = {8};
+    bins reg3 = {12};
+    }
+    
 
-    function new(string name = "axi_monitor", uvm_component parent);
-        super.new(name, parent);
-    endfunction
-
-    function void build_phase(uvm_phase phase);
-        super.build_phase(phase);
-        ap = new("ap", this);
-
-        if (!uvm_config_db#(virtual axi_if.MONITOR)::get(this, "", "vif", vif))
-            `uvm_fatal("NOVIF", "Virtual interface not set")
-    endfunction
-
-    task run_phase(uvm_phase phase);
-      axi_seq_item txn;
-      bit aw_seen = 1'b0;
-      bit w_seen = 1'b0;
-      logic [31:0] awaddr,araddr;
-      logic [2:0] awprot,arprot;
-      logic [31:0] wdata;
-      logic [3:0] wstrb;
+    cp_resp : coverpoint resp {
+    bins OKAY   = {2'b00};
+    bins SLVERR = {2'b10};
+    }
+    
+    
+    cp_aw_w_order : coverpoint aw_w_order {
+      bins aw_first = {AW_FIRST};
+      bins w_first  = {W_FIRST};
+      bins same     = {SAME};
+    }
       
-      time aw_time, w_time;
       
-        forever begin
-            @(vif.cb_mon);  // sample every clock
+      // Cover the cases where AW happens before W and W happens before AW need to use $realtime
+      
+  
+      cross cp_is_write, cp_addr;
+    
+      cross cp_aw_w_order, cp_is_write{
+            ignore_bins invalid_aw =
+        binsof(cp_is_write) intersect {0} && binsof(cp_aw_w_order) intersect {AW_FIRST};
+        	ignore_bins invalid_w =
+        binsof(cp_is_write) intersect {0} && binsof(cp_aw_w_order) intersect {W_FIRST};
+      }
+      
+    endgroup
+  
+       
+  function new(string name="axi_coverage", uvm_component parent);
+          super.new(name, parent);
+          cg_transaction = new();
+          cg_transaction.set_inst_name("cg_transaction");  // helps reporting
+    endfunction
+  
+  
+    // This is called automatically via analysis_export
+    virtual function void write(axi_seq_item t);
+      `uvm_info("COV_SAMPLE", $sformatf("Sampling txn: s_axi_wvalid=%0b s_axi_arready=%0b",t.s_axi_wvalid, t.s_axi_arready), UVM_MEDIUM)
+      
+        is_write = t.is_write;
+        if (is_write)
+          addr = t.s_axi_awaddr;
+        else
+          addr = t.s_axi_araddr;
+      
+        resp     = t.s_axi_bresp;
+        aw_w_order = t.aw_w_order;
+      
+        cg_transaction.sample();
 
-          	txn = null;
-          
-
-          
-            // Write Address handshake
-            if (vif.cb_mon.s_axi_awvalid && vif.cb_mon.s_axi_awready) begin 
-                awaddr  = vif.cb_mon.s_axi_awaddr;
-                awprot  = vif.cb_mon.s_axi_awprot;
-                aw_seen = 1'b1;
-                aw_time = $time;
-            end
-
-            // Write Data handshake
-            if (vif.cb_mon.s_axi_wvalid && vif.cb_mon.s_axi_wready) begin
-                wdata   = vif.cb_mon.s_axi_wdata;
-                wstrb   = vif.cb_mon.s_axi_wstrb;
-                w_seen = 1'b1;
-              	w_time = $time;
-            end
-
-          if(w_seen && aw_seen) begin
-             txn = axi_seq_item::type_id::create("txn"); 
-             txn.s_axi_awaddr = awaddr;
-             txn.s_axi_awprot = awprot;
-             txn.s_axi_wdata = wdata;
-             txn.s_axi_wstrb = wstrb;
-             txn.s_axi_wvalid  = 1'b1;
-             txn.s_axi_wready  = 1'b1;
-             txn.is_write = 1'b1;
-           
-
-            // time aw and w were seen (for ordering)
-                
-            if (aw_time < w_time)
-                  txn.aw_w_order = AW_FIRST;  
-            else if (w_time < aw_time)
-                  txn.aw_w_order = W_FIRST;
-            else
-                  txn.aw_w_order = SAME;
-
-            
-            // Write Response handshake
-            if (vif.cb_mon.s_axi_bvalid && vif.cb_mon.s_axi_bready) begin
-                ap.write(txn);
-              
-              @(vif.cb_mon);
-
-              w_seen = 1'b0;
-              aw_seen = 1'b0;
-            end
-          end
-
-            // Read Address handshake
-            if (vif.cb_mon.s_axi_arvalid && vif.cb_mon.s_axi_arready) begin
-                araddr  = vif.cb_mon.s_axi_araddr;
-                arprot  = vif.cb_mon.s_axi_arprot;        
-            end
-
-            // Read Data handshake 
-            if (vif.cb_mon.s_axi_rvalid && vif.cb_mon.s_axi_rready) begin
-              	txn = axi_seq_item::type_id::create("txn");
-                txn.s_axi_rdata   = vif.cb_mon.s_axi_rdata;
-                txn.s_axi_rresp   = vif.cb_mon.s_axi_rresp;
-     
-                txn.s_axi_araddr = araddr;
-                txn.s_axi_arprot = arprot;
-              	txn.s_axi_rvalid = 1'b1;
-              	txn.s_axi_rready = 1'b1;
-                txn.aw_w_order = SAME;
-                ap.write(txn);
-              
-            end
-        end
-    endtask
+  endfunction
+  
+  
+  
 endclass
