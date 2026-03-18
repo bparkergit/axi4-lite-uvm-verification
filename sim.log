@@ -1,13 +1,13 @@
-[2026-03-18 19:25:31 UTC] qrun -batch -access=rw+/. -uvmhome uvm-1.2 '-timescale' '1ns/1ns' -mfcu design.sv testbench.sv '+UVM_VERBOSITY=UVM_LOW' '-voptargs=+acc=npr' '+cover' '+fcover' '-coverage' '-do' 'run.do'  -do  " run -all; exit"  
+[2026-03-18 20:26:11 UTC] qrun -batch -access=rw+/. -uvmhome uvm-1.2 '-timescale' '1ns/1ns' -mfcu design.sv testbench.sv '+UVM_VERBOSITY=UVM_LOW' '-voptargs=+acc=npr' '+cover' '+fcover' '-coverage' '-do' 'run.do'  -do  " run -all; exit"  
 QuestaSim-64 qrun 2025.2 Utility 2025.05 May 31 2025
-Start time: 15:25:31 on Mar 18,2026
+Start time: 16:26:11 on Mar 18,2026
 qrun -batch -access=rw+/. -uvmhome uvm-1.2 -timescale 1ns/1ns -mfcu design.sv testbench.sv "+UVM_VERBOSITY=UVM_LOW" -voptargs="+acc=npr" "+cover" "+fcover" -coverage -do "run.do" -do " run -all; exit" 
 ** Note: (qrun-220) 'modelsim.ini' is used as the ini file.
 Creating library 'qrun.out/work'.
 Mapping library 'mtiUvm' to 'qrun.out/work'.
 ** Note: (vmap-220) 'modelsim.ini' is used as the ini file.
 QuestaSim-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-Start time: 15:25:31 on Mar 18,2026
+Start time: 16:26:12 on Mar 18,2026
 vlog -timescale 1ns/1ns -mfcu -ccflags "-Wno-missing-declarations" -ccflags "-Wno-maybe-uninitialized" -ccflags "-Wno-return-type" -ccflags "-DQUESTA" /usr/share/questa/questasim/verilog_src/uvm-1.2/src/dpi/uvm_dpi.cc /usr/share/questa/questasim/verilog_src/uvm-1.2/src/uvm_pkg.sv /usr/share/questa/questasim/verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv design.sv testbench.sv -work qrun.out/work "+incdir+/usr/share/questa/questasim/verilog_src/uvm-1.2/src" -statslog qrun.out/stats_log -csession=incr 
 ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 -- Compiling package uvm_pkg (uvm-1.2 Built-in)
@@ -23,11 +23,11 @@ Top level modules:
 	axi_tb_top
 ** Note: (vlog-7082) For C/C++ auto compile, choosing compiler /usr/bin/g++ set from the PATH environment variable.
 -- Compiling DPI/PLI C++ file /usr/share/questa/questasim/verilog_src/uvm-1.2/src/dpi/uvm_dpi.cc
-End time: 15:25:34 on Mar 18,2026, Elapsed time: 0:00:03
+End time: 16:26:14 on Mar 18,2026, Elapsed time: 0:00:02
 Errors: 0, Warnings: 0
 QuestaSim-64 vopt 2025.2 Compiler 2025.05 May 31 2025
 ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
-Start time: 15:25:34 on Mar 18,2026
+Start time: 16:26:14 on Mar 18,2026
 vopt -access=rw+/. -timescale 1ns/1ns -mfcu "+cover" "+acc=npr" -findtoplevels qrun.out/work+2+ -work qrun.out/work -statslog qrun.out/stats_log -csession=incr -o qrun_opt -csessionid=3 
 ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
 
@@ -49,12 +49,12 @@ Optimizing 7 design-units (inlining 0/3 module instances):
 -- Optimizing module axi_tb_top(fast)
 -- Optimizing interface axi_if(fast)
 Optimized design name is qrun_opt
-End time: 15:25:39 on Mar 18,2026, Elapsed time: 0:00:05
+End time: 16:26:19 on Mar 18,2026, Elapsed time: 0:00:05
 Errors: 0, Warnings: 2
 # ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
 # vsim -batch "+UVM_VERBOSITY=UVM_LOW" "+fcover" -lib qrun.out/work -coverage -do "coverage save -onexit cov_$Sv_Seed.ucdb" -do "run.do" -do " run -all; exit" -statslog qrun.out/stats_log qrun_opt -appendlog -l qrun.log 
-# Start time: 15:25:39 on Mar 18,2026
-# Loading /tmp/root@ec227b6ee013_dpi_34/linux_x86_64_gcc-11/export_tramp.so
+# Start time: 16:26:19 on Mar 18,2026
+# Loading /tmp/root@56d2c0960e2f_dpi_34/linux_x86_64_gcc-11/export_tramp.so
 # //  Questa Sim-64
 # //  Version 2025.2 linux_x86_64 May 31 2025
 # //
@@ -78,8 +78,8 @@ Errors: 0, Warnings: 2
 # Loading work.axi_if(fast__2)
 # Loading work.axi4_lite_slave(fast)
 # ** Note: (vsim-7082) For C/C++ auto compile, choosing compiler /usr/bin/g++ set from the PATH environment variable.
-# Compiling /tmp/root@ec227b6ee013_dpi_34/linux_x86_64_gcc-11/exportwrapper.c
-# Loading /tmp/root@ec227b6ee013_dpi_34/linux_x86_64_gcc-11/vsim_auto_compile.so
+# Compiling /tmp/root@56d2c0960e2f_dpi_34/linux_x86_64_gcc-11/exportwrapper.c
+# Loading /tmp/root@56d2c0960e2f_dpi_34/linux_x86_64_gcc-11/vsim_auto_compile.so
 # 
 # coverage save -onexit cov_$Sv_Seed.ucdb
 # do run.do
@@ -108,6 +108,7 @@ Errors: 0, Warnings: 2
 # UVM_INFO @ 0: reporter [RNTST] Running test axi_base_test...
 # UVM_INFO axi_base_test.sv(20) @ 0: uvm_test_top [axi_base_test] Starting axi_base_sequence
 # UVM_INFO axi_base_sequence.sv(20) @ 0: uvm_test_top.env.agent.sqr@@seq [SEQ] READ:  addr=0x0000000c
+# UVM_INFO axi_scoreboard.sv(99) @ 5000: uvm_test_top.env.scoreboard [SCB_RST] Scoreboard model cleared on reset
 # UVM_INFO axi_scoreboard.sv(72) @ 65000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x0000000c: got=0x00000000  exp=0x00000000
 # UVM_INFO axi_scoreboard.sv(87) @ 65000: uvm_test_top.env.scoreboard [MATCH] Addr 0x0000000c: 0x00000000 OK
 # UVM_INFO axi_base_sequence.sv(37) @ 75000: uvm_test_top.env.agent.sqr@@seq [SEQ] WRITE: addr=0x00000008 wdata=0xb39592d4 wstrb=0x6
@@ -290,7 +291,7 @@ Errors: 0, Warnings: 2
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :  182
+# UVM_INFO :  183
 # UVM_WARNING :    0
 # UVM_ERROR :    0
 # UVM_FATAL :    0
@@ -298,6 +299,7 @@ Errors: 0, Warnings: 2
 # [MATCH]    36
 # [RNTST]     1
 # [SCB_RD]    36
+# [SCB_RST]     1
 # [SCB_WR]    35
 # [SEQ]    71
 # [TEST_DONE]     1
@@ -446,9 +448,9 @@ Errors: 0, Warnings: 2
 # 
 # 
 # Saving coverage database on exit...
-# End time: 15:25:41 on Mar 18,2026, Elapsed time: 0:00:02
+# End time: 16:26:21 on Mar 18,2026, Elapsed time: 0:00:02
 # Errors: 0, Warnings: 0
-End time: 15:25:41 on Mar 18,2026, Elapsed time: 0:00:10
+End time: 16:26:21 on Mar 18,2026, Elapsed time: 0:00:10
 *** Summary *********************************************
     qrun: Errors:   0, Warnings:   0
     vlog: Errors:   0, Warnings:   0
