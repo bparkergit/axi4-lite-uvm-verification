@@ -1,13 +1,13 @@
-[2026-03-18 20:26:11 UTC] qrun -batch -access=rw+/. -uvmhome uvm-1.2 '-timescale' '1ns/1ns' -mfcu design.sv testbench.sv '+UVM_VERBOSITY=UVM_LOW' '-voptargs=+acc=npr' '+cover' '+fcover' '-coverage' '-do' 'run.do'  -do  " run -all; exit"  
+[2026-03-18 20:35:07 UTC] qrun -batch -access=rw+/. -uvmhome uvm-1.2 '-timescale' '1ns/1ns' -mfcu design.sv testbench.sv '+UVM_VERBOSITY=UVM_LOW' '-voptargs=+acc=npr' '+cover' '+fcover' '-coverage' '-do' 'run.do'  -do  " run -all; exit"  
 QuestaSim-64 qrun 2025.2 Utility 2025.05 May 31 2025
-Start time: 16:26:11 on Mar 18,2026
+Start time: 16:35:07 on Mar 18,2026
 qrun -batch -access=rw+/. -uvmhome uvm-1.2 -timescale 1ns/1ns -mfcu design.sv testbench.sv "+UVM_VERBOSITY=UVM_LOW" -voptargs="+acc=npr" "+cover" "+fcover" -coverage -do "run.do" -do " run -all; exit" 
 ** Note: (qrun-220) 'modelsim.ini' is used as the ini file.
 Creating library 'qrun.out/work'.
 Mapping library 'mtiUvm' to 'qrun.out/work'.
 ** Note: (vmap-220) 'modelsim.ini' is used as the ini file.
 QuestaSim-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-Start time: 16:26:12 on Mar 18,2026
+Start time: 16:35:07 on Mar 18,2026
 vlog -timescale 1ns/1ns -mfcu -ccflags "-Wno-missing-declarations" -ccflags "-Wno-maybe-uninitialized" -ccflags "-Wno-return-type" -ccflags "-DQUESTA" /usr/share/questa/questasim/verilog_src/uvm-1.2/src/dpi/uvm_dpi.cc /usr/share/questa/questasim/verilog_src/uvm-1.2/src/uvm_pkg.sv /usr/share/questa/questasim/verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv design.sv testbench.sv -work qrun.out/work "+incdir+/usr/share/questa/questasim/verilog_src/uvm-1.2/src" -statslog qrun.out/stats_log -csession=incr 
 ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 -- Compiling package uvm_pkg (uvm-1.2 Built-in)
@@ -23,11 +23,11 @@ Top level modules:
 	axi_tb_top
 ** Note: (vlog-7082) For C/C++ auto compile, choosing compiler /usr/bin/g++ set from the PATH environment variable.
 -- Compiling DPI/PLI C++ file /usr/share/questa/questasim/verilog_src/uvm-1.2/src/dpi/uvm_dpi.cc
-End time: 16:26:14 on Mar 18,2026, Elapsed time: 0:00:02
+End time: 16:35:10 on Mar 18,2026, Elapsed time: 0:00:03
 Errors: 0, Warnings: 0
 QuestaSim-64 vopt 2025.2 Compiler 2025.05 May 31 2025
 ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
-Start time: 16:26:14 on Mar 18,2026
+Start time: 16:35:10 on Mar 18,2026
 vopt -access=rw+/. -timescale 1ns/1ns -mfcu "+cover" "+acc=npr" -findtoplevels qrun.out/work+2+ -work qrun.out/work -statslog qrun.out/stats_log -csession=incr -o qrun_opt -csessionid=3 
 ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
 
@@ -49,12 +49,12 @@ Optimizing 7 design-units (inlining 0/3 module instances):
 -- Optimizing module axi_tb_top(fast)
 -- Optimizing interface axi_if(fast)
 Optimized design name is qrun_opt
-End time: 16:26:19 on Mar 18,2026, Elapsed time: 0:00:05
+End time: 16:35:16 on Mar 18,2026, Elapsed time: 0:00:06
 Errors: 0, Warnings: 2
 # ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
 # vsim -batch "+UVM_VERBOSITY=UVM_LOW" "+fcover" -lib qrun.out/work -coverage -do "coverage save -onexit cov_$Sv_Seed.ucdb" -do "run.do" -do " run -all; exit" -statslog qrun.out/stats_log qrun_opt -appendlog -l qrun.log 
-# Start time: 16:26:19 on Mar 18,2026
-# Loading /tmp/root@56d2c0960e2f_dpi_34/linux_x86_64_gcc-11/export_tramp.so
+# Start time: 16:35:16 on Mar 18,2026
+# Loading /tmp/root@2fcb6f4dd72a_dpi_34/linux_x86_64_gcc-11/export_tramp.so
 # //  Questa Sim-64
 # //  Version 2025.2 linux_x86_64 May 31 2025
 # //
@@ -78,8 +78,8 @@ Errors: 0, Warnings: 2
 # Loading work.axi_if(fast__2)
 # Loading work.axi4_lite_slave(fast)
 # ** Note: (vsim-7082) For C/C++ auto compile, choosing compiler /usr/bin/g++ set from the PATH environment variable.
-# Compiling /tmp/root@56d2c0960e2f_dpi_34/linux_x86_64_gcc-11/exportwrapper.c
-# Loading /tmp/root@56d2c0960e2f_dpi_34/linux_x86_64_gcc-11/vsim_auto_compile.so
+# Compiling /tmp/root@2fcb6f4dd72a_dpi_34/linux_x86_64_gcc-11/exportwrapper.c
+# Loading /tmp/root@2fcb6f4dd72a_dpi_34/linux_x86_64_gcc-11/vsim_auto_compile.so
 # 
 # coverage save -onexit cov_$Sv_Seed.ucdb
 # do run.do
@@ -318,17 +318,17 @@ Errors: 0, Warnings: 2
 # =================================================================================
 # 
 # Covergroup Coverage:
-#     Covergroups                      1        na        na    86.11%
+#     Covergroups                      1        na        na    91.66%
 #         Coverpoints/Crosses          6        na        na        na
-#             Covergroup Bins         25        22         3    88.00%
+#             Covergroup Bins         23        22         1    95.65%
 # ----------------------------------------------------------------------------------------------------------
 # Covergroup                                             Metric       Goal       Bins    Status               
 #                                                                                                          
 # ----------------------------------------------------------------------------------------------------------
-#  TYPE /uvm_pkg_sv_unit/axi_coverage/cg_transaction     86.11%        100          -    Uncovered            
-#     covered/total bins:                                    22         25          -                      
-#     missing/total bins:                                     3         25          -                      
-#     % Hit:                                             88.00%        100          -                      
+#  TYPE /uvm_pkg_sv_unit/axi_coverage/cg_transaction     91.66%        100          -    Uncovered            
+#     covered/total bins:                                    22         23          -                      
+#     missing/total bins:                                     1         23          -                      
+#     % Hit:                                             95.65%        100          -                      
 #     Coverpoint cp_is_write                            100.00%        100          -    Covered              
 #         covered/total bins:                                 2          2          -                      
 #         missing/total bins:                                 0          2          -                      
@@ -369,27 +369,28 @@ Errors: 0, Warnings: 2
 #             bin <read,reg1>                                13          1          -    Covered              
 #             bin <write,reg0>                                4          1          -    Covered              
 #             bin <read,reg0>                                 4          1          -    Covered              
-#     Cross #cross__1#                                   66.66%        100          -    Uncovered            
-#         covered/total bins:                                 4          6          -                      
-#         missing/total bins:                                 2          6          -                      
-#         % Hit:                                         66.66%        100          -                      
+#     Cross #cross__1#                                  100.00%        100          -    Covered              
+#         covered/total bins:                                 4          4          -                      
+#         missing/total bins:                                 0          4          -                      
+#         % Hit:                                        100.00%        100          -                      
 #         Auto, Default and User Defined Bins:
 #             bin <same,write>                                4          1          -    Covered              
 #             bin <w_first,write>                            15          1          -    Covered              
 #             bin <aw_first,write>                           16          1          -    Covered              
 #             bin <same,read>                                36          1          -    Covered              
-#             bin <w_first,read>                              0          1          1    ZERO                 
-#             bin <aw_first,read>                             0          1          1    ZERO                 
+#         Illegal and Ignore Bins:
+#             ignore_bin invalid_w                            0                     -    ZERO                 
+#             ignore_bin invalid_aw                           0                     -    ZERO                 
 # 
 # COVERGROUP COVERAGE:
 # ----------------------------------------------------------------------------------------------------------
 # Covergroup                                             Metric       Goal       Bins    Status               
 #                                                                                                          
 # ----------------------------------------------------------------------------------------------------------
-#  TYPE /uvm_pkg_sv_unit/axi_coverage/cg_transaction     86.11%        100          -    Uncovered            
-#     covered/total bins:                                    22         25          -                      
-#     missing/total bins:                                     3         25          -                      
-#     % Hit:                                             88.00%        100          -                      
+#  TYPE /uvm_pkg_sv_unit/axi_coverage/cg_transaction     91.66%        100          -    Uncovered            
+#     covered/total bins:                                    22         23          -                      
+#     missing/total bins:                                     1         23          -                      
+#     % Hit:                                             95.65%        100          -                      
 #     Coverpoint cp_is_write                            100.00%        100          -    Covered              
 #         covered/total bins:                                 2          2          -                      
 #         missing/total bins:                                 0          2          -                      
@@ -430,27 +431,28 @@ Errors: 0, Warnings: 2
 #             bin <read,reg1>                                13          1          -    Covered              
 #             bin <write,reg0>                                4          1          -    Covered              
 #             bin <read,reg0>                                 4          1          -    Covered              
-#     Cross #cross__1#                                   66.66%        100          -    Uncovered            
-#         covered/total bins:                                 4          6          -                      
-#         missing/total bins:                                 2          6          -                      
-#         % Hit:                                         66.66%        100          -                      
+#     Cross #cross__1#                                  100.00%        100          -    Covered              
+#         covered/total bins:                                 4          4          -                      
+#         missing/total bins:                                 0          4          -                      
+#         % Hit:                                        100.00%        100          -                      
 #         Auto, Default and User Defined Bins:
 #             bin <same,write>                                4          1          -    Covered              
 #             bin <w_first,write>                            15          1          -    Covered              
 #             bin <aw_first,write>                           16          1          -    Covered              
 #             bin <same,read>                                36          1          -    Covered              
-#             bin <w_first,read>                              0          1          1    ZERO                 
-#             bin <aw_first,read>                             0          1          1    ZERO                 
+#         Illegal and Ignore Bins:
+#             ignore_bin invalid_w                            0                     -    ZERO                 
+#             ignore_bin invalid_aw                           0                     -    ZERO                 
 # 
-# TOTAL COVERGROUP COVERAGE: 86.11%  COVERGROUP TYPES: 1
+# TOTAL COVERGROUP COVERAGE: 91.66%  COVERGROUP TYPES: 1
 # 
-# Total Coverage By Instance (filtered view): 86.11%
+# Total Coverage By Instance (filtered view): 91.66%
 # 
 # 
 # Saving coverage database on exit...
-# End time: 16:26:21 on Mar 18,2026, Elapsed time: 0:00:02
+# End time: 16:35:18 on Mar 18,2026, Elapsed time: 0:00:02
 # Errors: 0, Warnings: 0
-End time: 16:26:21 on Mar 18,2026, Elapsed time: 0:00:10
+End time: 16:35:18 on Mar 18,2026, Elapsed time: 0:00:11
 *** Summary *********************************************
     qrun: Errors:   0, Warnings:   0
     vlog: Errors:   0, Warnings:   0
