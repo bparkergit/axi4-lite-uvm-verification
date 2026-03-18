@@ -128,7 +128,41 @@ logic        s_axi_rready;
     // ───────────────────────────────────────────────
     // Basic protocol assertion
     // ───────────────────────────────────────────────
-     assert property (@(posedge aclk) disable iff (!aresetn)
-         s_axi_awvalid |-> ##[0:16] s_axi_awready); 
+    
+       assert property (@(posedge aclk) disable iff (!aresetn)
+                        s_axi_awvalid |-> ##[0:16] s_axi_awready); 
 
+     
+       assert property (@(posedge aclk) disable iff (!aresetn)
+                        s_axi_wvalid |-> ##[0:16] s_axi_wready); 
+
+    
+       assert property (@(posedge aclk) disable iff (!aresetn)
+                        s_axi_arvalid |-> ##[0:16] s_axi_arready);
+         
+         
+         
+       assert property (@(posedge aclk) disable iff (!aresetn)                
+                        s_axi_rvalid |-> ##[0:16] s_axi_rready); 
+                
+               
+        
+         sequence aw_hs;
+           s_axi_awvalid && s_axi_awready;
+         endsequence
+
+        
+         sequence w_hs;
+           s_axi_wvalid && s_axi_wready;
+         endsequence
+
+       
+         property p_write_resp;
+          @(posedge aclk) disable iff (!aresetn)
+           (aw_hs ##[0:$] w_hs or w_hs ##[0:$] aw_hs) |-> ##[0:$] s_axi_bvalid;
+         endproperty
+         
+         
+         assert property(p_write_resp);
+                
 endinterface
