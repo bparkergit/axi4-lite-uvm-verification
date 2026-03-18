@@ -41,8 +41,8 @@ axi4_lite_slave #(
     .ADDR_WIDTH(ADDR_WIDTH), 
     .DATA_WIDTH(DATA_WIDTH)
      ) dut (
-    .aclk(aclk),
-    .aresetn(aresetn),
+  .aclk(aclk),
+  .aresetn(aresetn),
 
     .s_axi_awaddr (axi_if_inst.s_axi_awaddr),
     .s_axi_awprot (axi_if_inst.s_axi_awprot),
@@ -71,6 +71,8 @@ axi4_lite_slave #(
 
       // Reset generation
     initial begin
+        aresetn = 1;
+        #5;
         aresetn = 0;
         #10;
         aresetn = 1;
