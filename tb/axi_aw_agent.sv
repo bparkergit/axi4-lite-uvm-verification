@@ -1,5 +1,5 @@
 class axi_aw_agent extends uvm_agent;
-  `uvm_component_utils(axi_wa_agent)
+  `uvm_component_utils(axi_aw_agent)
   
   axi_sequencer sqr;
   axi_aw_driver drv;
@@ -23,7 +23,7 @@ class axi_aw_agent extends uvm_agent;
             sqr = axi_sequencer::type_id::create("sqr", this);
             drv = axi_aw_driver::type_id::create("drv", this);
           end
-          mon = axi_aw_monitor::ty2pe_id::create("mon", this);
+          mon = axi_aw_monitor::type_id::create("mon", this);
           ap = new("ap", this);
         
   endfunction

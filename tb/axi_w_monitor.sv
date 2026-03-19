@@ -35,8 +35,6 @@ class axi_w_monitor extends uvm_monitor;
             if (vif.cb_mon.s_axi_wvalid && vif.cb_mon.s_axi_wready) begin
                 wdata   = vif.cb_mon.s_axi_wdata;
                 wstrb   = vif.cb_mon.s_axi_wstrb;
-                w_seen = 1'b1;
-              	w_time = $time;
 
              txn = axi_seq_item::type_id::create("txn"); 
              txn.s_axi_wdata = wdata;
@@ -44,6 +42,7 @@ class axi_w_monitor extends uvm_monitor;
              txn.s_axi_wvalid  = 1'b1;
              txn.s_axi_wready  = 1'b1;
              txn.is_write = 1'b1;
+             txn.w_seen = 1'b1;
            
             ap.write(txn);
 

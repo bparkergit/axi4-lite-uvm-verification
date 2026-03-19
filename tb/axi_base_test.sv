@@ -25,7 +25,7 @@ class axi_base_test extends uvm_test;
 
           vseq = wr_rd_vseq::type_id::create("vseq");
           
-          vseq.start(env.agent.vseqr);
+          vseq.start(env.vseqr);
           
 
         #1000ns;   // give time to observe behavior

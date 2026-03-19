@@ -22,8 +22,8 @@ class axi_ar_monitor extends uvm_monitor;
       axi_seq_item txn;
 
       logic [31:0] araddr;
+      logic [2:0] arprot;
       
-
         forever begin
             @(vif.cb_mon);  // sample every clock
 
@@ -31,6 +31,7 @@ class axi_ar_monitor extends uvm_monitor;
 
             // Read Address handshake
             if (vif.cb_mon.s_axi_arvalid && vif.cb_mon.s_axi_arready) begin
+                txn = axi_seq_item::type_id::create("txn"); 
                 araddr  = vif.cb_mon.s_axi_araddr;
                 arprot  = vif.cb_mon.s_axi_arprot; 
                 txn.s_axi_araddr = araddr;

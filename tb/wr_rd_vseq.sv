@@ -20,7 +20,10 @@ class wr_rd_vseq extends uvm_sequence;
     // ---------------- WRITE ----------------
     wr_seq = axi_write_sequence::type_id::create("wr_seq");
 
-    wr_seq.start(p_sequencer.write_sequencer); 
+
+    wr_seq.wstrb = $urandom_range(0,15);
+      
+      wr_seq.start(p_sequencer.w_sqr); 
 
 
     addr  = wr_seq.addr;
@@ -31,7 +34,7 @@ class wr_rd_vseq extends uvm_sequence;
 
     rd_seq.addr = addr;
 
-    rd_seq.start(p_sequencer.read_sequencer); 
+      rd_seq.start(p_sequencer.r_sqr); 
     
 
     end

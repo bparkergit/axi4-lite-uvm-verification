@@ -4,14 +4,13 @@ class axi_coverage extends uvm_subscriber #(axi_seq_item) ;
      
   typedef enum {AW_FIRST, W_FIRST, SAME} order_e;
   
-  
-  bit        is_write;
+
   bit [31:0] addr;
   bit [1:0]  resp;
   bit [3:0]  wstrb;
-
+  bit	w_seen, aw_seen, is_write;
   
-  
+  time w_time, aw_time;
   int aw_w_order;
   
   
@@ -74,15 +73,40 @@ class axi_coverage extends uvm_subscriber #(axi_seq_item) ;
     virtual function void write(axi_seq_item t);
       `uvm_info("COV_SAMPLE", $sformatf("Sampling txn: s_axi_wvalid=%0b s_axi_arready=%0b",t.s_axi_wvalid, t.s_axi_arready), UVM_MEDIUM)
       
-        is_write = t.is_write;
-        if (is_write)
-          addr = t.s_axi_awaddr;
-        else
+
+      	is_write = t.is_write;
+      
+      if(is_write) begin
+        
+        if (t.w_seen) begin  
+          w_seen = t.w_seen;
+          w_time = $time;
+        end
+
+        if(t.aw_seen) begin
+          aw_seen = t.aw_seen;
+          aw_time = $time;
+        end
+            
+        addr = t.s_axi_awaddr;     
+        wstrb = t.s_axi_wstrb;
+
+   
+        if(w_seen && aw_seen) begin
+          if (aw_time < w_time)
+            aw_w_order = AW_FIRST;
+          else if (w_time < aw_time)
+            aw_w_order = W_FIRST;
+          else
+            aw_w_order = SAME;
+        end
+        
+      end
+      else
           addr = t.s_axi_araddr;
       
-        wstrb = t.s_axi_wstrb;
+      
         resp     = t.s_axi_bresp;
-        aw_w_order = t.aw_w_order;
       
         cg_transaction.sample();
 

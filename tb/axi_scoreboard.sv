@@ -43,9 +43,10 @@ class axi_scoreboard extends uvm_scoreboard;
     virtual function void write(axi_seq_item txn);
 
         // Handle writes
-      if (txn.s_axi_wvalid && txn.s_axi_wready) begin
+      if (txn.s_axi_awvalid && txn.s_axi_awready) 
             addr = txn.s_axi_awaddr & ~32'h3;  // word-aligned
 
+      if(txn.s_axi_wvalid && txn.s_axi_wready) begin
             current = model_mem.exists(addr) ? model_mem[addr] : 0;
             masked_data = current;
 
@@ -63,9 +64,10 @@ class axi_scoreboard extends uvm_scoreboard;
         end
 
         // Handle reads
-      if (txn.s_axi_rvalid && txn.s_axi_rready) begin
+      if (txn.s_axi_arvalid && txn.s_axi_arready) 
             addr = txn.s_axi_araddr & ~32'h3;
 
+      if(txn.s_axi_rvalid && txn.s_axi_rready) begin
             expected = model_mem.exists(addr) ? model_mem[addr] : 0;
 
             read_count++;
@@ -92,11 +94,12 @@ class axi_scoreboard extends uvm_scoreboard;
     // Reset handling
     virtual task run_phase(uvm_phase phase);
         forever begin
-            @(negedge vif.aresetn);
+          @(negedge vif.aresetn) begin
             model_mem.delete();
             write_count = 0;
             read_count  = 0;
           `uvm_info("SCB_RST", "Scoreboard model cleared on reset", UVM_LOW)
+          end
         end
     endtask
 

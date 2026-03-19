@@ -7,13 +7,24 @@ import uvm_pkg::*;
 `include "uvm_macros.svh"
 `include "axi_seq_item.sv"
 `include "axi_if.sv"
-`include "axi_wdriver.sv"
-`include "axi_rdriver.sv"
+`include "axi_w_driver.sv"
+`include "axi_r_driver.sv"
+`include "axi_b_driver.sv"
+`include "axi_ar_driver.sv"
+`include "axi_aw_driver.sv"
 `include "axi_sequencer.sv"
-`include "axi_monitor.sv"
+`include "axi_w_monitor.sv"
+`include "axi_r_monitor.sv"
+`include "axi_b_monitor.sv"
+`include "axi_ar_monitor.sv"
+`include "axi_aw_monitor.sv"
 `include "axi_coverage.sv"
 `include "axi_virtual_sequencer.sv"
-`include "axi_agent.sv"
+`include "axi_aw_agent.sv"
+`include "axi_w_agent.sv"
+`include "axi_ar_agent.sv"
+`include "axi_r_agent.sv"
+`include "axi_b_agent.sv"
 `include "axi_scoreboard.sv"
 `include "axi_env.sv"
 `include "axi_read_sequence.sv"
@@ -87,13 +98,13 @@ axi4_lite_slave #(
         // Set interface for driver
       uvm_config_db #(virtual axi_if.DRIVER)::set(
             null,
-            "uvm_test_top.env.agent.*",
+            "uvm_test_top.env.*",
             "vif",
             axi_if_inst
         );
       uvm_config_db #(virtual axi_if.MONITOR)::set(
             null,
-            "uvm_test_top.env.agent.mon",
+            "uvm_test_top.env.*",
             "vif",
             axi_if_inst
         );

@@ -32,7 +32,6 @@ class axi_ar_agent extends uvm_agent;
           drv.seq_item_port.connect(sqr.seq_item_export);   
         
          mon.ap.connect(ap);
-         mon.ap.connect(cov.analysis_export);
 
       
  endfunction

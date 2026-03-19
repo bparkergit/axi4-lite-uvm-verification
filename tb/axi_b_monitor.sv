@@ -29,7 +29,9 @@ class axi_b_monitor extends uvm_monitor;
             
             // Write Response handshake
             if (vif.cb_mon.s_axi_bvalid && vif.cb_mon.s_axi_bready)begin
-                txn.is_write = 1'b1;
+                txn = axi_seq_item::type_id::create("txn"); 
+                txn.s_axi_bvalid = 1'b1;
+              	txn.s_axi_bready = 1'b1;
                 ap.write(txn);
         
             end

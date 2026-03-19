@@ -34,7 +34,7 @@ class axi_r_monitor extends uvm_monitor;
      
               	txn.s_axi_rvalid = 1'b1;
               	txn.s_axi_rready = 1'b1;
-
+				txn.is_write = 1'b0;
                 ap.write(txn);
               
             end

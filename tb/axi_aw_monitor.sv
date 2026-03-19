@@ -36,6 +36,9 @@ class axi_aw_monitor extends uvm_monitor;
                 txn = axi_seq_item::type_id::create("txn"); 
                 txn.s_axi_awaddr = awaddr;
                 txn.s_axi_awprot = awprot;
+                txn.s_axi_awvalid = 1'b1;
+                txn.s_axi_awready = 1'b1;
+                txn.aw_seen = 1'b1;
                 txn.is_write = 1'b1;
                 ap.write(txn);
 
