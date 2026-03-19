@@ -45,6 +45,7 @@ task run_phase(uvm_phase phase);
                 end
               
               // Write response channel wait for bvalid
+              repeat(item.bready_delay) @(vif.cb_drv); // delay bready for overlapping transactions
               vif.cb_drv.s_axi_bready <= 1;
 
               wait(vif.cb_drv.s_axi_bvalid);
