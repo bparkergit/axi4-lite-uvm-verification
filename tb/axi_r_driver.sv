@@ -1,9 +1,9 @@
-class axi_rdriver extends uvm_driver #(axi_seq_item);
-  `uvm_component_utils(axi_rdriver)
+class axi_r_driver extends uvm_driver #(axi_seq_item);
+  `uvm_component_utils(axi_r_driver)
   
   virtual axi_if.DRIVER vif;
   
-  function new(string name = "axi_rdriver", uvm_component parent = null);     
+  function new(string name = "axi_r_driver", uvm_component parent = null);     
     super.new(name, parent);
   endfunction
   
@@ -17,27 +17,24 @@ class axi_rdriver extends uvm_driver #(axi_seq_item);
           
       
        
-task run_phase(uvm_phase phase);
+  task run_phase(uvm_phase phase);
         axi_seq_item item; 
-		vif.cb_drv.s_axi_arvalid <= 0;
-		vif.cb_drv.s_axi_rready  <= 0;
-        
+		    vif.cb_drv.s_axi_arvalid <= 0;
         
         forever begin
           seq_item_port.get_next_item(item);
         
           if(!item.is_write)   
             drive_read(item);
-          
               
           seq_item_port.item_done();
 
         end
-endtask
+  endtask
         
 
         
-task drive_read(axi_seq_item item); 
+  task drive_read(axi_seq_item item); 
       
   repeat(item.r_delay) @(vif.cb_drv); // random delayed start
   
@@ -59,7 +56,7 @@ task drive_read(axi_seq_item item);
       @(vif.cb_drv);
       vif.cb_drv.s_axi_rready <= 0;
       
-endtask
+  endtask
         
         
 endclass

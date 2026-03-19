@@ -39,7 +39,7 @@ class axi_seq_item extends uvm_sequence_item;
     rand int bready_delay;
   
   	rand	bit	is_write;
-    rand int aw_w_order;
+   
   
     constraint delay_dist {
       aw_delay dist {0 := 1, [1:5] := 9};
