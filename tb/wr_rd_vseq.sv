@@ -6,7 +6,7 @@ class wr_rd_vseq extends uvm_sequence;
   axi_read_sequence rd_seq;
   axi_write_sequence wr_seq;
    
-  bit [31:0] addr, data;
+  bit [31:0] addr, wdata;
   
     
   function new(string name = "wr_rd_vseq");   
@@ -25,7 +25,7 @@ class wr_rd_vseq extends uvm_sequence;
 
 
     addr  = wr_seq.addr;
-    data = wr_seq.data;
+    wdata = wr_seq.data;
 
     // ---------------- READ ----------------
     rd_seq = axi_read_sequence::type_id::create("rd_seq");
@@ -33,6 +33,14 @@ class wr_rd_vseq extends uvm_sequence;
     rd_seq.addr = addr;
 
     rd_seq.start(p_sequencer.read_sequencer); 
+    
+        // ---- CHECK ----
+    if (rd_seq.data !== wdata) begin
+      `uvm_error("MISMATCH",
+        $sformatf("addr=0x%0h exp=0x%0h got=0x%0h",
+                  addr, wdata, rd_seq.data))
+    end
+    
     
   endtask
 endclass
