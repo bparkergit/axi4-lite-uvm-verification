@@ -1,4 +1,4 @@
-# AXI4 Lite slave verifiction environment with UVM
+# AXI4-Lite slave verifiction environment with UVM
 
 UVM testbench for a 4-entry AXI4 Lite slave interface (32-bit data width).
 ![559442293-b82fbde3-57db-42ea-ac36-25c75682d5a5](https://github.com/user-attachments/assets/21a9e31e-3f4f-4460-8a68-1bf40eb74e0a)
