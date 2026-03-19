@@ -141,10 +141,13 @@ logic        s_axi_rready;
                         s_axi_arvalid |-> ##[0:16] s_axi_arready);
          
          
-         
        assert property (@(posedge aclk) disable iff (!aresetn)                
                         s_axi_rvalid |-> ##[0:16] s_axi_rready); 
                 
+         
+       assert property (@(posedge aclk) disable iff (!aresetn)                
+                        s_axi_bvalid |-> ##[0:16] s_axi_bready); 
+                  
                
         
          sequence aw_hs;
