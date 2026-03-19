@@ -14,10 +14,7 @@ class wr_rd_vseq extends uvm_sequence;
   endfunction
   
   
-  task body();
-        rd_seq = axi_read_sequence::type_id::create("rd_seq");
-  		wr_seq = axi_write_sequence::type_id::create("wr_seq");
-    
+  task body();      
     // ---------------- WRITE ----------------
     wr_seq = axi_write_sequence::type_id::create("wr_seq");
 
