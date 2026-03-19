@@ -41,7 +41,7 @@ class axi_seq_item extends uvm_sequence_item;
   
   	rand	bit	w_seen;
     rand	bit aw_seen;
-    rand  bit is_write;
+  	rand	bit is_write;
   
     constraint delay_dist {
       aw_delay dist {0 := 1, [1:5] := 9};
@@ -50,15 +50,6 @@ class axi_seq_item extends uvm_sequence_item;
       r_delay  dist {0 := 5, [1:5] := 5};
       b_delay dist {0 := 5, [1:5] := 5};
     }
-  
-    constraint aw_cons {
-      s_axi_awaddr inside {0, 4, 8, 12};
-    }
-    
-    constraint ar_cons {
-      s_axi_araddr inside {0, 4, 8, 12};
-    }
-	
 
   
     function new(string name = "axi_seq_item");

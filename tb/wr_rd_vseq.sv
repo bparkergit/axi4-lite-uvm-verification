@@ -3,8 +3,9 @@ class wr_rd_vseq extends uvm_sequence;
 
   `uvm_declare_p_sequencer(axi_virtual_sequencer)
   
-  axi_read_sequence rd_seq;
-  axi_write_sequence wr_seq;
+  axi_r_sequence r_seq;
+  axi_w_sequence w_seq;
+  axi_aw_sequence aw_seq;
    
   bit [31:0] addr, wdata;
   
@@ -17,24 +18,29 @@ class wr_rd_vseq extends uvm_sequence;
   task body();    
     
     repeat(30) begin
-    // ---------------- WRITE ----------------
-    wr_seq = axi_write_sequence::type_id::create("wr_seq");
+    // ---------------- WRITE ----------------  
+    aw_seq = axi_aw_sequence::type_id::create("aw_seq");
+    w_seq = axi_w_sequence::type_id::create("w_seq");
 
-
-    wr_seq.wstrb = $urandom_range(0,15);
+    aw_seq.addr = $urandom_range(0,255);
+    w_seq.wstrb = $urandom_range(0,15);
+    w_seq.data = $urandom_range(0,255);
       
-      wr_seq.start(p_sequencer.w_sqr); 
-
-
-    addr  = wr_seq.addr;
-    wdata = wr_seq.data;
+    fork begin
+    w_seq.start(p_sequencer.w_sqr); 
+    aw_seq.start(p_sequencer.aw_sqr);
+    end
+    join
+      
+    addr  = aw_seq.addr;
+    wdata = w_seq.data;
 
     // ---------------- READ ----------------
-    rd_seq = axi_read_sequence::type_id::create("rd_seq");
+    r_seq = axi_r_sequence::type_id::create("r_seq");
 
-    rd_seq.addr = addr;
+    r_seq.addr = addr;
 
-      rd_seq.start(p_sequencer.r_sqr); 
+      r_seq.start(p_sequencer.r_sqr); 
     
 
     end
