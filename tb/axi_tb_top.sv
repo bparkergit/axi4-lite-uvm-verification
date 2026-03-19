@@ -18,7 +18,7 @@ import uvm_pkg::*;
 `include "axi_env.sv"
 `include "axi_read_sequence.sv"
 `include "axi_write_sequence.sv"
-`include "rd_wr_vseq.sv"
+`include "wr_rd_vseq.sv"
 `include "axi_base_test.sv"
 
 
