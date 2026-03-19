@@ -1,13 +1,13 @@
-[2026-03-19 05:36:15 UTC] qrun -batch -access=rw+/. -uvmhome uvm-1.2 '-timescale' '1ns/1ns' -mfcu design.sv testbench.sv '+UVM_VERBOSITY=UVM_LOW' '-voptargs=+acc=npr' '+cover' '+fcover' '-coverage' '-do' 'run.do'  -do  " run -all; exit"  
+[2026-03-19 06:21:54 UTC] qrun -batch -access=rw+/. -uvmhome uvm-1.2 '-timescale' '1ns/1ns' -mfcu design.sv testbench.sv '+UVM_VERBOSITY=UVM_LOW' '-voptargs=+acc=npr' '+cover' '+fcover' '-coverage' '-do' 'run.do'  -do  " run -all; exit"  
 QuestaSim-64 qrun 2025.2 Utility 2025.05 May 31 2025
-Start time: 01:36:15 on Mar 19,2026
+Start time: 02:21:54 on Mar 19,2026
 qrun -batch -access=rw+/. -uvmhome uvm-1.2 -timescale 1ns/1ns -mfcu design.sv testbench.sv "+UVM_VERBOSITY=UVM_LOW" -voptargs="+acc=npr" "+cover" "+fcover" -coverage -do "run.do" -do " run -all; exit" 
 ** Note: (qrun-220) 'modelsim.ini' is used as the ini file.
 Creating library 'qrun.out/work'.
 Mapping library 'mtiUvm' to 'qrun.out/work'.
 ** Note: (vmap-220) 'modelsim.ini' is used as the ini file.
 QuestaSim-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-Start time: 01:36:15 on Mar 19,2026
+Start time: 02:21:55 on Mar 19,2026
 vlog -timescale 1ns/1ns -mfcu -ccflags "-Wno-missing-declarations" -ccflags "-Wno-maybe-uninitialized" -ccflags "-Wno-return-type" -ccflags "-DQUESTA" /usr/share/questa/questasim/verilog_src/uvm-1.2/src/dpi/uvm_dpi.cc /usr/share/questa/questasim/verilog_src/uvm-1.2/src/uvm_pkg.sv /usr/share/questa/questasim/verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv design.sv testbench.sv -work qrun.out/work "+incdir+/usr/share/questa/questasim/verilog_src/uvm-1.2/src" -statslog qrun.out/stats_log -csession=incr 
 ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
 -- Compiling package uvm_pkg (uvm-1.2 Built-in)
@@ -23,11 +23,11 @@ Top level modules:
 	axi_tb_top
 ** Note: (vlog-7082) For C/C++ auto compile, choosing compiler /usr/bin/g++ set from the PATH environment variable.
 -- Compiling DPI/PLI C++ file /usr/share/questa/questasim/verilog_src/uvm-1.2/src/dpi/uvm_dpi.cc
-End time: 01:36:18 on Mar 19,2026, Elapsed time: 0:00:03
+End time: 02:21:58 on Mar 19,2026, Elapsed time: 0:00:03
 Errors: 0, Warnings: 0
 QuestaSim-64 vopt 2025.2 Compiler 2025.05 May 31 2025
 ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
-Start time: 01:36:18 on Mar 19,2026
+Start time: 02:21:58 on Mar 19,2026
 vopt -access=rw+/. -timescale 1ns/1ns -mfcu "+cover" "+acc=npr" -findtoplevels qrun.out/work+2+ -work qrun.out/work -statslog qrun.out/stats_log -csession=incr -o qrun_opt -csessionid=3 
 ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
 
@@ -49,12 +49,12 @@ Optimizing 7 design-units (inlining 0/3 module instances):
 -- Optimizing module axi_tb_top(fast)
 -- Optimizing interface axi_if(fast)
 Optimized design name is qrun_opt
-End time: 01:36:23 on Mar 19,2026, Elapsed time: 0:00:05
+End time: 02:22:04 on Mar 19,2026, Elapsed time: 0:00:06
 Errors: 0, Warnings: 2
 # ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
 # vsim -batch "+UVM_VERBOSITY=UVM_LOW" "+fcover" -lib qrun.out/work -coverage -do "coverage save -onexit cov_$Sv_Seed.ucdb" -do "run.do" -do " run -all; exit" -statslog qrun.out/stats_log qrun_opt -appendlog -l qrun.log 
-# Start time: 01:36:23 on Mar 19,2026
-# Loading /tmp/root@07ee77375c51_dpi_35/linux_x86_64_gcc-11/export_tramp.so
+# Start time: 02:22:04 on Mar 19,2026
+# Loading /tmp/root@e2f4ef6b32e5_dpi_36/linux_x86_64_gcc-11/export_tramp.so
 # //  Questa Sim-64
 # //  Version 2025.2 linux_x86_64 May 31 2025
 # //
@@ -78,8 +78,8 @@ Errors: 0, Warnings: 2
 # Loading work.axi_if(fast__2)
 # Loading work.axi4_lite_slave(fast)
 # ** Note: (vsim-7082) For C/C++ auto compile, choosing compiler /usr/bin/g++ set from the PATH environment variable.
-# Compiling /tmp/root@07ee77375c51_dpi_35/linux_x86_64_gcc-11/exportwrapper.c
-# Loading /tmp/root@07ee77375c51_dpi_35/linux_x86_64_gcc-11/vsim_auto_compile.so
+# Compiling /tmp/root@e2f4ef6b32e5_dpi_36/linux_x86_64_gcc-11/exportwrapper.c
+# Loading /tmp/root@e2f4ef6b32e5_dpi_36/linux_x86_64_gcc-11/vsim_auto_compile.so
 # 
 # coverage save -onexit cov_$Sv_Seed.ucdb
 # do run.do
@@ -106,35 +106,180 @@ Errors: 0, Warnings: 2
 #       (Specify +UVM_NO_RELNOTES to turn off this notice)
 # 
 # UVM_INFO @ 0: reporter [RNTST] Running test axi_base_test...
-# UVM_INFO axi_base_test.sv(22) @ 0: uvm_test_top [axi_base_test] Starting axi_write_sequence and axi_read_sequence
+# UVM_INFO axi_base_test.sv(24) @ 0: uvm_test_top [axi_base_test] Starting axi_write_sequence and axi_read_sequence
 # UVM_INFO axi_write_sequence.sv(23) @ 0: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000008 wdata=0x1fb7720e wstrb=0x4
 # UVM_INFO axi_scoreboard.sv(99) @ 5000: uvm_test_top.env.scoreboard [SCB_RST] Scoreboard model cleared on reset
 # UVM_INFO axi_scoreboard.sv(61) @ 75000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000008: data=0x00b70000 (wstrb=0x4)
 # UVM_INFO axi_read_sequence.sv(26) @ 75000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000008
 # UVM_INFO axi_scoreboard.sv(72) @ 135000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000008: got=0x00b70000  exp=0x00b70000
 # UVM_INFO axi_scoreboard.sv(87) @ 135000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000008: 0x00b70000 OK
-# UVM_INFO /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_objection.svh(1270) @ 1145000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
-# UVM_INFO /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_report_server.svh(847) @ 1145000: reporter [UVM/REPORT/SERVER] 
+# UVM_INFO axi_write_sequence.sv(23) @ 145000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000004 wdata=0xa868f3b7 wstrb=0x7
+# UVM_INFO axi_scoreboard.sv(61) @ 255000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000004: data=0x0068f3b7 (wstrb=0x7)
+# UVM_INFO axi_read_sequence.sv(26) @ 255000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000004
+# UVM_INFO axi_scoreboard.sv(72) @ 325000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000004: got=0x0068f3b7  exp=0x0068f3b7
+# UVM_INFO axi_scoreboard.sv(87) @ 325000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000004: 0x0068f3b7 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 335000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000008 wdata=0xc6404df4 wstrb=0x6
+# UVM_INFO axi_scoreboard.sv(61) @ 415000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000008: data=0x00404d00 (wstrb=0x6)
+# UVM_INFO axi_read_sequence.sv(26) @ 425000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000008
+# UVM_INFO axi_scoreboard.sv(72) @ 455000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000008: got=0x00404d00  exp=0x00404d00
+# UVM_INFO axi_scoreboard.sv(87) @ 455000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000008: 0x00404d00 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 465000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0xb9a59f08 wstrb=0x5
+# UVM_INFO axi_scoreboard.sv(61) @ 565000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0x00a50008 (wstrb=0x5)
+# UVM_INFO axi_read_sequence.sv(26) @ 565000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 605000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0x00a50008  exp=0x00a50008
+# UVM_INFO axi_scoreboard.sv(87) @ 605000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0x00a50008 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 615000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000004 wdata=0x4770a1a6 wstrb=0xe
+# UVM_INFO axi_scoreboard.sv(61) @ 705000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000004: data=0x4770a1b7 (wstrb=0xe)
+# UVM_INFO axi_read_sequence.sv(26) @ 705000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000004
+# UVM_INFO axi_scoreboard.sv(72) @ 785000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000004: got=0x4770a1b7  exp=0x4770a1b7
+# UVM_INFO axi_scoreboard.sv(87) @ 785000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000004: 0x4770a1b7 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 795000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0x5c574b8d wstrb=0xe
+# UVM_INFO axi_scoreboard.sv(61) @ 885000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0x5c574b08 (wstrb=0xe)
+# UVM_INFO axi_read_sequence.sv(26) @ 885000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 945000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0x5c574b08  exp=0x5c574b08
+# UVM_INFO axi_scoreboard.sv(87) @ 945000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0x5c574b08 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 955000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000008 wdata=0x9eb55671 wstrb=0xc
+# UVM_INFO axi_scoreboard.sv(61) @ 1025000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000008: data=0x9eb54d00 (wstrb=0xc)
+# UVM_INFO axi_read_sequence.sv(26) @ 1035000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000008
+# UVM_INFO axi_scoreboard.sv(72) @ 1085000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000008: got=0x9eb54d00  exp=0x9eb54d00
+# UVM_INFO axi_scoreboard.sv(87) @ 1085000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000008: 0x9eb54d00 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 1095000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000008 wdata=0x04c3faed wstrb=0xa
+# UVM_INFO axi_scoreboard.sv(61) @ 1155000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000008: data=0x04b5fa00 (wstrb=0xa)
+# UVM_INFO axi_read_sequence.sv(26) @ 1165000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000008
+# UVM_INFO axi_scoreboard.sv(72) @ 1215000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000008: got=0x04b5fa00  exp=0x04b5fa00
+# UVM_INFO axi_scoreboard.sv(87) @ 1215000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000008: 0x04b5fa00 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 1225000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000008 wdata=0x6e753762 wstrb=0x1
+# UVM_INFO axi_scoreboard.sv(61) @ 1345000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000008: data=0x04b5fa62 (wstrb=0x1)
+# UVM_INFO axi_read_sequence.sv(26) @ 1345000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000008
+# UVM_INFO axi_scoreboard.sv(72) @ 1405000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000008: got=0x04b5fa62  exp=0x04b5fa62
+# UVM_INFO axi_scoreboard.sv(87) @ 1405000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000008: 0x04b5fa62 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 1415000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000008 wdata=0x19d28e97 wstrb=0xd
+# UVM_INFO axi_scoreboard.sv(61) @ 1495000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000008: data=0x19d2fa97 (wstrb=0xd)
+# UVM_INFO axi_read_sequence.sv(26) @ 1495000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000008
+# UVM_INFO axi_scoreboard.sv(72) @ 1555000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000008: got=0x19d2fa97  exp=0x19d2fa97
+# UVM_INFO axi_scoreboard.sv(87) @ 1555000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000008: 0x19d2fa97 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 1565000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0x1d391740 wstrb=0x7
+# UVM_INFO axi_scoreboard.sv(61) @ 1645000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0x5c391740 (wstrb=0x7)
+# UVM_INFO axi_read_sequence.sv(26) @ 1655000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 1735000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0x5c391740  exp=0x5c391740
+# UVM_INFO axi_scoreboard.sv(87) @ 1735000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0x5c391740 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 1745000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0x66929b6e wstrb=0x4
+# UVM_INFO axi_scoreboard.sv(61) @ 1845000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0x5c921740 (wstrb=0x4)
+# UVM_INFO axi_read_sequence.sv(26) @ 1845000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 1885000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0x5c921740  exp=0x5c921740
+# UVM_INFO axi_scoreboard.sv(87) @ 1885000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0x5c921740 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 1895000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000004 wdata=0x2195d26d wstrb=0x6
+# UVM_INFO axi_scoreboard.sv(61) @ 1955000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000004: data=0x4795d2b7 (wstrb=0x6)
+# UVM_INFO axi_read_sequence.sv(26) @ 1965000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000004
+# UVM_INFO axi_scoreboard.sv(72) @ 1995000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000004: got=0x4795d2b7  exp=0x4795d2b7
+# UVM_INFO axi_scoreboard.sv(87) @ 1995000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000004: 0x4795d2b7 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 2005000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000008 wdata=0x23773e5c wstrb=0x7
+# UVM_INFO axi_scoreboard.sv(61) @ 2115000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000008: data=0x19773e5c (wstrb=0x7)
+# UVM_INFO axi_read_sequence.sv(26) @ 2115000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000008
+# UVM_INFO axi_scoreboard.sv(72) @ 2175000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000008: got=0x19773e5c  exp=0x19773e5c
+# UVM_INFO axi_scoreboard.sv(87) @ 2175000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000008: 0x19773e5c OK
+# UVM_INFO axi_write_sequence.sv(23) @ 2185000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000004 wdata=0x0b02f358 wstrb=0xe
+# UVM_INFO axi_scoreboard.sv(61) @ 2225000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000004: data=0x0b02f3b7 (wstrb=0xe)
+# UVM_INFO axi_read_sequence.sv(26) @ 2235000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000004
+# UVM_INFO axi_scoreboard.sv(72) @ 2275000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000004: got=0x0b02f3b7  exp=0x0b02f3b7
+# UVM_INFO axi_scoreboard.sv(87) @ 2275000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000004: 0x0b02f3b7 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 2285000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0x21b1dd2a wstrb=0xd
+# UVM_INFO axi_scoreboard.sv(61) @ 2355000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0x21b1172a (wstrb=0xd)
+# UVM_INFO axi_read_sequence.sv(26) @ 2355000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 2425000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0x21b1172a  exp=0x21b1172a
+# UVM_INFO axi_scoreboard.sv(87) @ 2425000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0x21b1172a OK
+# UVM_INFO axi_write_sequence.sv(23) @ 2435000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x0000000c wdata=0xe95d93d9 wstrb=0x8
+# UVM_INFO axi_scoreboard.sv(61) @ 2555000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x0000000c: data=0xe9000000 (wstrb=0x8)
+# UVM_INFO axi_read_sequence.sv(26) @ 2555000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x0000000c
+# UVM_INFO axi_scoreboard.sv(72) @ 2585000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x0000000c: got=0xe9000000  exp=0xe9000000
+# UVM_INFO axi_scoreboard.sv(87) @ 2585000: uvm_test_top.env.scoreboard [MATCH] Addr 0x0000000c: 0xe9000000 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 2595000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000008 wdata=0xe30128b4 wstrb=0xc
+# UVM_INFO axi_scoreboard.sv(61) @ 2695000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000008: data=0xe3013e5c (wstrb=0xc)
+# UVM_INFO axi_read_sequence.sv(26) @ 2695000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000008
+# UVM_INFO axi_scoreboard.sv(72) @ 2725000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000008: got=0xe3013e5c  exp=0xe3013e5c
+# UVM_INFO axi_scoreboard.sv(87) @ 2725000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000008: 0xe3013e5c OK
+# UVM_INFO axi_write_sequence.sv(23) @ 2735000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0x12a6d4c4 wstrb=0x9
+# UVM_INFO axi_scoreboard.sv(61) @ 2795000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0x12b117c4 (wstrb=0x9)
+# UVM_INFO axi_read_sequence.sv(26) @ 2805000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 2855000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0x12b117c4  exp=0x12b117c4
+# UVM_INFO axi_scoreboard.sv(87) @ 2855000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0x12b117c4 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 2865000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x0000000c wdata=0xbbc877b5 wstrb=0xe
+# UVM_INFO axi_scoreboard.sv(61) @ 2935000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x0000000c: data=0xbbc87700 (wstrb=0xe)
+# UVM_INFO axi_read_sequence.sv(26) @ 2935000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x0000000c
+# UVM_INFO axi_scoreboard.sv(72) @ 2975000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x0000000c: got=0xbbc87700  exp=0xbbc87700
+# UVM_INFO axi_scoreboard.sv(87) @ 2975000: uvm_test_top.env.scoreboard [MATCH] Addr 0x0000000c: 0xbbc87700 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 2985000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000004 wdata=0x0fce623b wstrb=0xe
+# UVM_INFO axi_scoreboard.sv(61) @ 3045000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000004: data=0x0fce62b7 (wstrb=0xe)
+# UVM_INFO axi_read_sequence.sv(26) @ 3055000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000004
+# UVM_INFO axi_scoreboard.sv(72) @ 3115000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000004: got=0x0fce62b7  exp=0x0fce62b7
+# UVM_INFO axi_scoreboard.sv(87) @ 3115000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000004: 0x0fce62b7 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 3125000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x0000000c wdata=0x7b8aee0d wstrb=0x2
+# UVM_INFO axi_scoreboard.sv(61) @ 3165000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x0000000c: data=0xbbc8ee00 (wstrb=0x2)
+# UVM_INFO axi_read_sequence.sv(26) @ 3175000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x0000000c
+# UVM_INFO axi_scoreboard.sv(72) @ 3255000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x0000000c: got=0xbbc8ee00  exp=0xbbc8ee00
+# UVM_INFO axi_scoreboard.sv(87) @ 3255000: uvm_test_top.env.scoreboard [MATCH] Addr 0x0000000c: 0xbbc8ee00 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 3265000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0xce429f32 wstrb=0xb
+# UVM_INFO axi_scoreboard.sv(61) @ 3365000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0xceb19f32 (wstrb=0xb)
+# UVM_INFO axi_read_sequence.sv(26) @ 3365000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 3415000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0xceb19f32  exp=0xceb19f32
+# UVM_INFO axi_scoreboard.sv(87) @ 3415000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0xceb19f32 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 3425000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0x17369e55 wstrb=0xd
+# UVM_INFO axi_scoreboard.sv(61) @ 3545000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0x17369f55 (wstrb=0xd)
+# UVM_INFO axi_read_sequence.sv(26) @ 3545000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 3595000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0x17369f55  exp=0x17369f55
+# UVM_INFO axi_scoreboard.sv(87) @ 3595000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0x17369f55 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 3605000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x0000000c wdata=0xb0462ea0 wstrb=0xa
+# UVM_INFO axi_scoreboard.sv(61) @ 3655000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x0000000c: data=0xb0c82e00 (wstrb=0xa)
+# UVM_INFO axi_read_sequence.sv(26) @ 3655000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x0000000c
+# UVM_INFO axi_scoreboard.sv(72) @ 3695000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x0000000c: got=0xb0c82e00  exp=0xb0c82e00
+# UVM_INFO axi_scoreboard.sv(87) @ 3695000: uvm_test_top.env.scoreboard [MATCH] Addr 0x0000000c: 0xb0c82e00 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 3705000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x0000000c wdata=0xa8fcd731 wstrb=0x3
+# UVM_INFO axi_scoreboard.sv(61) @ 3785000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x0000000c: data=0xb0c8d731 (wstrb=0x3)
+# UVM_INFO axi_read_sequence.sv(26) @ 3795000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x0000000c
+# UVM_INFO axi_scoreboard.sv(72) @ 3865000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x0000000c: got=0xb0c8d731  exp=0xb0c8d731
+# UVM_INFO axi_scoreboard.sv(87) @ 3865000: uvm_test_top.env.scoreboard [MATCH] Addr 0x0000000c: 0xb0c8d731 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 3875000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x0000000c wdata=0x8f0284e7 wstrb=0x6
+# UVM_INFO axi_scoreboard.sv(61) @ 3955000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x0000000c: data=0xb0028431 (wstrb=0x6)
+# UVM_INFO axi_read_sequence.sv(26) @ 3965000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x0000000c
+# UVM_INFO axi_scoreboard.sv(72) @ 4025000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x0000000c: got=0xb0028431  exp=0xb0028431
+# UVM_INFO axi_scoreboard.sv(87) @ 4025000: uvm_test_top.env.scoreboard [MATCH] Addr 0x0000000c: 0xb0028431 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 4035000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000004 wdata=0x8e77b256 wstrb=0x0
+# UVM_INFO axi_scoreboard.sv(61) @ 4115000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000004: data=0x0fce62b7 (wstrb=0x0)
+# UVM_INFO axi_read_sequence.sv(26) @ 4125000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000004
+# UVM_INFO axi_scoreboard.sv(72) @ 4195000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000004: got=0x0fce62b7  exp=0x0fce62b7
+# UVM_INFO axi_scoreboard.sv(87) @ 4195000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000004: 0x0fce62b7 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 4205000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x00000000 wdata=0x741e01e9 wstrb=0xc
+# UVM_INFO axi_scoreboard.sv(61) @ 4315000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x00000000: data=0x741e9f55 (wstrb=0xc)
+# UVM_INFO axi_read_sequence.sv(26) @ 4315000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x00000000
+# UVM_INFO axi_scoreboard.sv(72) @ 4385000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x00000000: got=0x741e9f55  exp=0x741e9f55
+# UVM_INFO axi_scoreboard.sv(87) @ 4385000: uvm_test_top.env.scoreboard [MATCH] Addr 0x00000000: 0x741e9f55 OK
+# UVM_INFO axi_write_sequence.sv(23) @ 4395000: uvm_test_top.env.agent.wsqr@@wr_seq [SEQ] WRITE: addr=0x0000000c wdata=0xf80637de wstrb=0x0
+# UVM_INFO axi_scoreboard.sv(61) @ 4475000: uvm_test_top.env.scoreboard [SCB_WR] Write addr 0x0000000c: data=0xb0028431 (wstrb=0x0)
+# UVM_INFO axi_read_sequence.sv(26) @ 4475000: uvm_test_top.env.agent.rsqr@@rd_seq [SEQ] READ:  addr=0x0000000c
+# UVM_INFO axi_scoreboard.sv(72) @ 4525000: uvm_test_top.env.scoreboard [SCB_RD] Read addr 0x0000000c: got=0xb0028431  exp=0xb0028431
+# UVM_INFO axi_scoreboard.sv(87) @ 4525000: uvm_test_top.env.scoreboard [MATCH] Addr 0x0000000c: 0xb0028431 OK
+# UVM_INFO /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_objection.svh(1270) @ 5535000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_report_server.svh(847) @ 5535000: reporter [UVM/REPORT/SERVER] 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   10
+# UVM_INFO :  155
 # UVM_WARNING :    0
 # UVM_ERROR :    0
 # UVM_FATAL :    0
 # ** Report counts by id
-# [MATCH]     1
+# [MATCH]    30
 # [RNTST]     1
-# [SCB_RD]     1
+# [SCB_RD]    30
 # [SCB_RST]     1
-# [SCB_WR]     1
-# [SEQ]     2
+# [SCB_WR]    30
+# [SEQ]    60
 # [TEST_DONE]     1
 # [UVM/RELNOTES]     1
 # [axi_base_test]     1
 # 
 # ** Note: $finish    : /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_root.svh(517)
-#    Time: 1145 ns  Iteration: 68  Instance: /axi_tb_top
+#    Time: 5535 ns  Iteration: 68  Instance: /axi_tb_top
 # Break in Task uvm_root::run_test at /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_root.svh line 517
 # Stopped at /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_root.svh line 517
 # Coverage Report by instance with details
@@ -145,63 +290,66 @@ Errors: 0, Warnings: 2
 # =================================================================================
 # 
 # Covergroup Coverage:
-#     Covergroups                      1        na        na    47.22%
+#     Covergroups                      1        na        na    91.66%
 #         Coverpoints/Crosses          6        na        na        na
-#             Covergroup Bins         23         9        14    39.13%
+#             Covergroup Bins         23        22         1    95.65%
 # ----------------------------------------------------------------------------------------------------------
 # Covergroup                                             Metric       Goal       Bins    Status               
 #                                                                                                          
 # ----------------------------------------------------------------------------------------------------------
-#  TYPE /uvm_pkg_sv_unit/axi_coverage/cg_transaction     47.22%        100          -    Uncovered            
-#     covered/total bins:                                     9         23          -                      
-#     missing/total bins:                                    14         23          -                      
-#     % Hit:                                             39.13%        100          -                      
+#  TYPE /uvm_pkg_sv_unit/axi_coverage/cg_transaction     91.66%        100          -    Uncovered            
+#     covered/total bins:                                    22         23          -                      
+#     missing/total bins:                                     1         23          -                      
+#     % Hit:                                             95.65%        100          -                      
 #     Coverpoint cp_is_write                            100.00%        100          -    Covered              
 #         covered/total bins:                                 2          2          -                      
 #         missing/total bins:                                 0          2          -                      
 #         % Hit:                                        100.00%        100          -                      
-#         bin read                                            1          1          -    Covered              
-#         bin write                                           1          1          -    Covered              
-#     Coverpoint cp_addr                                 25.00%        100          -    Uncovered            
-#         covered/total bins:                                 1          4          -                      
-#         missing/total bins:                                 3          4          -                      
-#         % Hit:                                         25.00%        100          -                      
-#         bin reg0                                            0          1          -    ZERO                 
-#         bin reg1                                            0          1          -    ZERO                 
-#         bin reg2                                            2          1          -    Covered              
-#         bin reg3                                            0          1          -    ZERO                 
+#         bin read                                           30          1          -    Covered              
+#         bin write                                          30          1          -    Covered              
+#     Coverpoint cp_addr                                100.00%        100          -    Covered              
+#         covered/total bins:                                 4          4          -                      
+#         missing/total bins:                                 0          4          -                      
+#         % Hit:                                        100.00%        100          -                      
+#         bin reg0                                           18          1          -    Covered              
+#         bin reg1                                           12          1          -    Covered              
+#         bin reg2                                           16          1          -    Covered              
+#         bin reg3                                           14          1          -    Covered              
 #     Coverpoint cp_resp                                 50.00%        100          -    Uncovered            
 #         covered/total bins:                                 1          2          -                      
 #         missing/total bins:                                 1          2          -                      
 #         % Hit:                                         50.00%        100          -                      
-#         bin OKAY                                            2          1          -    Covered              
+#         bin OKAY                                           60          1          -    Covered              
 #         bin SLVERR                                          0          1          -    ZERO                 
-#     Coverpoint cp_aw_w_order                           33.33%        100          -    Uncovered            
-#         covered/total bins:                                 1          3          -                      
-#         missing/total bins:                                 2          3          -                      
-#         % Hit:                                         33.33%        100          -                      
-#         bin aw_first                                        0          1          -    ZERO                 
-#         bin w_first                                         0          1          -    ZERO                 
-#         bin same                                            2          1          -    Covered              
-#     Cross #cross__0#                                   25.00%        100          -    Uncovered            
-#         covered/total bins:                                 2          8          -                      
-#         missing/total bins:                                 6          8          -                      
-#         % Hit:                                         25.00%        100          -                      
+#     Coverpoint cp_aw_w_order                          100.00%        100          -    Covered              
+#         covered/total bins:                                 3          3          -                      
+#         missing/total bins:                                 0          3          -                      
+#         % Hit:                                        100.00%        100          -                      
+#         bin aw_first                                        9          1          -    Covered              
+#         bin w_first                                        12          1          -    Covered              
+#         bin same                                           39          1          -    Covered              
+#     Cross #cross__0#                                  100.00%        100          -    Covered              
+#         covered/total bins:                                 8          8          -                      
+#         missing/total bins:                                 0          8          -                      
+#         % Hit:                                        100.00%        100          -                      
 #         Auto, Default and User Defined Bins:
-#             bin <write,reg2>                                1          1          -    Covered              
-#             bin <read,reg2>                                 1          1          -    Covered              
-#             bin <*,reg3>                                    0          1          2    ZERO                 
-#             bin <*,reg1>                                    0          1          2    ZERO                 
-#             bin <*,reg0>                                    0          1          2    ZERO                 
-#     Cross #cross__1#                                   50.00%        100          -    Uncovered            
-#         covered/total bins:                                 2          4          -                      
-#         missing/total bins:                                 2          4          -                      
-#         % Hit:                                         50.00%        100          -                      
+#             bin <write,reg3>                                7          1          -    Covered              
+#             bin <read,reg3>                                 7          1          -    Covered              
+#             bin <write,reg2>                                8          1          -    Covered              
+#             bin <read,reg2>                                 8          1          -    Covered              
+#             bin <write,reg1>                                6          1          -    Covered              
+#             bin <read,reg1>                                 6          1          -    Covered              
+#             bin <write,reg0>                                9          1          -    Covered              
+#             bin <read,reg0>                                 9          1          -    Covered              
+#     Cross #cross__1#                                  100.00%        100          -    Covered              
+#         covered/total bins:                                 4          4          -                      
+#         missing/total bins:                                 0          4          -                      
+#         % Hit:                                        100.00%        100          -                      
 #         Auto, Default and User Defined Bins:
-#             bin <same,write>                                1          1          -    Covered              
-#             bin <same,read>                                 1          1          -    Covered              
-#             bin <w_first,*>                                 0          1          1    ZERO                 
-#             bin <aw_first,*>                                0          1          1    ZERO                 
+#             bin <same,write>                                9          1          -    Covered              
+#             bin <w_first,write>                            12          1          -    Covered              
+#             bin <aw_first,write>                            9          1          -    Covered              
+#             bin <same,read>                                30          1          -    Covered              
 #         Illegal and Ignore Bins:
 #             ignore_bin invalid_w                            0                     -    ZERO                 
 #             ignore_bin invalid_aw                           0                     -    ZERO                 
@@ -211,69 +359,72 @@ Errors: 0, Warnings: 2
 # Covergroup                                             Metric       Goal       Bins    Status               
 #                                                                                                          
 # ----------------------------------------------------------------------------------------------------------
-#  TYPE /uvm_pkg_sv_unit/axi_coverage/cg_transaction     47.22%        100          -    Uncovered            
-#     covered/total bins:                                     9         23          -                      
-#     missing/total bins:                                    14         23          -                      
-#     % Hit:                                             39.13%        100          -                      
+#  TYPE /uvm_pkg_sv_unit/axi_coverage/cg_transaction     91.66%        100          -    Uncovered            
+#     covered/total bins:                                    22         23          -                      
+#     missing/total bins:                                     1         23          -                      
+#     % Hit:                                             95.65%        100          -                      
 #     Coverpoint cp_is_write                            100.00%        100          -    Covered              
 #         covered/total bins:                                 2          2          -                      
 #         missing/total bins:                                 0          2          -                      
 #         % Hit:                                        100.00%        100          -                      
-#         bin read                                            1          1          -    Covered              
-#         bin write                                           1          1          -    Covered              
-#     Coverpoint cp_addr                                 25.00%        100          -    Uncovered            
-#         covered/total bins:                                 1          4          -                      
-#         missing/total bins:                                 3          4          -                      
-#         % Hit:                                         25.00%        100          -                      
-#         bin reg0                                            0          1          -    ZERO                 
-#         bin reg1                                            0          1          -    ZERO                 
-#         bin reg2                                            2          1          -    Covered              
-#         bin reg3                                            0          1          -    ZERO                 
+#         bin read                                           30          1          -    Covered              
+#         bin write                                          30          1          -    Covered              
+#     Coverpoint cp_addr                                100.00%        100          -    Covered              
+#         covered/total bins:                                 4          4          -                      
+#         missing/total bins:                                 0          4          -                      
+#         % Hit:                                        100.00%        100          -                      
+#         bin reg0                                           18          1          -    Covered              
+#         bin reg1                                           12          1          -    Covered              
+#         bin reg2                                           16          1          -    Covered              
+#         bin reg3                                           14          1          -    Covered              
 #     Coverpoint cp_resp                                 50.00%        100          -    Uncovered            
 #         covered/total bins:                                 1          2          -                      
 #         missing/total bins:                                 1          2          -                      
 #         % Hit:                                         50.00%        100          -                      
-#         bin OKAY                                            2          1          -    Covered              
+#         bin OKAY                                           60          1          -    Covered              
 #         bin SLVERR                                          0          1          -    ZERO                 
-#     Coverpoint cp_aw_w_order                           33.33%        100          -    Uncovered            
-#         covered/total bins:                                 1          3          -                      
-#         missing/total bins:                                 2          3          -                      
-#         % Hit:                                         33.33%        100          -                      
-#         bin aw_first                                        0          1          -    ZERO                 
-#         bin w_first                                         0          1          -    ZERO                 
-#         bin same                                            2          1          -    Covered              
-#     Cross #cross__0#                                   25.00%        100          -    Uncovered            
-#         covered/total bins:                                 2          8          -                      
-#         missing/total bins:                                 6          8          -                      
-#         % Hit:                                         25.00%        100          -                      
+#     Coverpoint cp_aw_w_order                          100.00%        100          -    Covered              
+#         covered/total bins:                                 3          3          -                      
+#         missing/total bins:                                 0          3          -                      
+#         % Hit:                                        100.00%        100          -                      
+#         bin aw_first                                        9          1          -    Covered              
+#         bin w_first                                        12          1          -    Covered              
+#         bin same                                           39          1          -    Covered              
+#     Cross #cross__0#                                  100.00%        100          -    Covered              
+#         covered/total bins:                                 8          8          -                      
+#         missing/total bins:                                 0          8          -                      
+#         % Hit:                                        100.00%        100          -                      
 #         Auto, Default and User Defined Bins:
-#             bin <write,reg2>                                1          1          -    Covered              
-#             bin <read,reg2>                                 1          1          -    Covered              
-#             bin <*,reg3>                                    0          1          2    ZERO                 
-#             bin <*,reg1>                                    0          1          2    ZERO                 
-#             bin <*,reg0>                                    0          1          2    ZERO                 
-#     Cross #cross__1#                                   50.00%        100          -    Uncovered            
-#         covered/total bins:                                 2          4          -                      
-#         missing/total bins:                                 2          4          -                      
-#         % Hit:                                         50.00%        100          -                      
+#             bin <write,reg3>                                7          1          -    Covered              
+#             bin <read,reg3>                                 7          1          -    Covered              
+#             bin <write,reg2>                                8          1          -    Covered              
+#             bin <read,reg2>                                 8          1          -    Covered              
+#             bin <write,reg1>                                6          1          -    Covered              
+#             bin <read,reg1>                                 6          1          -    Covered              
+#             bin <write,reg0>                                9          1          -    Covered              
+#             bin <read,reg0>                                 9          1          -    Covered              
+#     Cross #cross__1#                                  100.00%        100          -    Covered              
+#         covered/total bins:                                 4          4          -                      
+#         missing/total bins:                                 0          4          -                      
+#         % Hit:                                        100.00%        100          -                      
 #         Auto, Default and User Defined Bins:
-#             bin <same,write>                                1          1          -    Covered              
-#             bin <same,read>                                 1          1          -    Covered              
-#             bin <w_first,*>                                 0          1          1    ZERO                 
-#             bin <aw_first,*>                                0          1          1    ZERO                 
+#             bin <same,write>                                9          1          -    Covered              
+#             bin <w_first,write>                            12          1          -    Covered              
+#             bin <aw_first,write>                            9          1          -    Covered              
+#             bin <same,read>                                30          1          -    Covered              
 #         Illegal and Ignore Bins:
 #             ignore_bin invalid_w                            0                     -    ZERO                 
 #             ignore_bin invalid_aw                           0                     -    ZERO                 
 # 
-# TOTAL COVERGROUP COVERAGE: 47.22%  COVERGROUP TYPES: 1
+# TOTAL COVERGROUP COVERAGE: 91.66%  COVERGROUP TYPES: 1
 # 
-# Total Coverage By Instance (filtered view): 47.22%
+# Total Coverage By Instance (filtered view): 91.66%
 # 
 # 
 # Saving coverage database on exit...
-# End time: 01:36:26 on Mar 19,2026, Elapsed time: 0:00:03
+# End time: 02:22:07 on Mar 19,2026, Elapsed time: 0:00:03
 # Errors: 0, Warnings: 0
-End time: 01:36:26 on Mar 19,2026, Elapsed time: 0:00:11
+End time: 02:22:07 on Mar 19,2026, Elapsed time: 0:00:13
 *** Summary *********************************************
     qrun: Errors:   0, Warnings:   0
     vlog: Errors:   0, Warnings:   0
