@@ -14,7 +14,9 @@ class wr_rd_vseq extends uvm_sequence;
   endfunction
   
   
-  task body();      
+  task body();    
+    
+    repeat(30) begin
     // ---------------- WRITE ----------------
     wr_seq = axi_write_sequence::type_id::create("wr_seq");
 
@@ -32,6 +34,7 @@ class wr_rd_vseq extends uvm_sequence;
     rd_seq.start(p_sequencer.read_sequencer); 
     
 
+    end
     
   endtask
 endclass
