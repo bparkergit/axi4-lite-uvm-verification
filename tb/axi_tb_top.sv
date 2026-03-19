@@ -27,8 +27,10 @@ import uvm_pkg::*;
 `include "axi_b_agent.sv"
 `include "axi_scoreboard.sv"
 `include "axi_env.sv"
-`include "axi_read_sequence.sv"
-`include "axi_write_sequence.sv"
+`include "axi_r_sequence.sv"
+`include "axi_w_sequence.sv"
+`include "axi_aw_sequence.sv"
+`include "axi_b_sequence.sv"
 `include "wr_rd_vseq.sv"
 `include "axi_base_test.sv"
 
@@ -123,10 +125,13 @@ axi4_lite_slave #(
   
       // Use WLF format (recommended for Questa/ModelSim)
     initial begin
+
       $wlfdumpvars(0, axi_tb_top);   // dumps everything
         // If you prefer VCD:
       $dumpfile("axi_uvm.vcd");
       $dumpvars(0, axi_tb_top);
+      
+      
     end
   
 endmodule
