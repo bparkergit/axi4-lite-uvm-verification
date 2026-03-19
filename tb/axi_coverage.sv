@@ -1,33 +1,43 @@
 class axi_coverage extends uvm_subscriber #(axi_seq_item) ;
   
   `uvm_component_utils(axi_coverage)
-      typedef enum {AW_FIRST, W_FIRST, SAME} order_e;
+     
+  typedef enum {AW_FIRST, W_FIRST, SAME} order_e;
   
-    bit        is_write;
-    bit [31:0] addr;
-    bit [1:0]  resp;
+  
+  bit        is_write;
+  bit [31:0] addr;
+  bit [1:0]  resp;
+  bit [3:0]  wstrb;
 
   
-  	int aw_w_order;
   
-    covergroup cg_transaction;
+  int aw_w_order;
+  
+  
+  covergroup cg_transaction;
 
+  
+    cp_wstrb : coverpoint wstrb {
+      bins all_combinations[] = {[0:15]};
+    }
+    
     cp_is_write : coverpoint is_write {
-    bins read  = {0};
-    bins write = {1};
+      bins read  = {0};
+      bins write = {1};
   	}
     
     cp_addr : coverpoint addr {
-    bins reg0 = {0};
-    bins reg1 = {4};
-    bins reg2 = {8};
-    bins reg3 = {12};
+      bins reg0 = {0};
+      bins reg1 = {4};
+      bins reg2 = {8};
+      bins reg3 = {12};
     }
     
 
     cp_resp : coverpoint resp {
-    bins OKAY   = {2'b00};
-    bins SLVERR = {2'b10};
+      bins OKAY   = {2'b00};
+      bins SLVERR = {2'b10};
     }
     
     
@@ -70,6 +80,7 @@ class axi_coverage extends uvm_subscriber #(axi_seq_item) ;
         else
           addr = t.s_axi_araddr;
       
+        wstrb = t.s_axi_wstrb;
         resp     = t.s_axi_bresp;
         aw_w_order = t.aw_w_order;
       
