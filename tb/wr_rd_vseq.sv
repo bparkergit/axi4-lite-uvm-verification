@@ -5,9 +5,7 @@ class wr_rd_vseq extends uvm_sequence;
   
   axi_r_sequence r_seq;
   axi_w_sequence w_seq;
-  axi_aw_sequence aw_seq;
-  axi_b_sequence b_seq;
-   
+
   bit [31:0] addr, wdata;
   
     
@@ -20,24 +18,16 @@ class wr_rd_vseq extends uvm_sequence;
     
     repeat(30) begin
     // ---------------- WRITE ----------------  
-    aw_seq = axi_aw_sequence::type_id::create("aw_seq");
     w_seq = axi_w_sequence::type_id::create("w_seq");
-    b_seq = axi_b_sequence::type_id::create("b_seq");
-      
 
-    aw_seq.addr = $urandom_range(0,255);
-      w_seq.wstrb = $urandom_range(1,15);
+    w_seq.addr = $urandom_range(0,255);
+    w_seq.wstrb = $urandom_range(1,15);
     w_seq.data = $urandom_range(0,255);
-      
 
-
-
-      aw_seq.start(p_sequencer.aw_sqr);
-      w_seq.start(p_sequencer.w_sqr);
-      b_seq.start(p_sequencer.b_sqr); 
+    w_seq.start(p_sequencer.w_sqr);
 
       
-    addr  = aw_seq.addr;
+    addr  = w_seq.addr;
     wdata = w_seq.data;
 
     // ---------------- READ ----------------

@@ -24,8 +24,11 @@ task run_phase(uvm_phase phase);
         forever begin
           seq_item_port.get_next_item(item);
         
-          if(item.is_write)
-              drive_w_channel(item);
+          fork begin
+           drive_w_channel(item);
+           drive_aw_channel(item);
+          end
+          join
           
             seq_item_port.item_done();
         end
@@ -52,6 +55,30 @@ endtask
 
 endtask
              
+ 
+task drive_aw_channel(axi_seq_item item);
+
+
+  
+  // Data channel
+  repeat(item.aw_delay) @(vif.cb_drv);
+          
+  
+  vif.cb_drv.s_axi_awaddr  <= item.s_axi_awaddr;
+
+  
+  // Write data valid wait for ready
+  vif.cb_drv.s_axi_awvalid <= 1;
+
+	
+  wait(vif.cb_drv.s_axi_awready);
+        @(vif.cb_drv);
+        vif.cb_drv.s_axi_awvalid <= 0;
+
+
+
+endtask
+          
         
 endclass
 

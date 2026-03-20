@@ -81,7 +81,7 @@ logic        s_axi_rready;
     // Write Response Channel
     input s_axi_bresp;
     input s_axi_bvalid;
-    input s_axi_bready;
+    output s_axi_bready;
 
     // Read Address Channel
     input s_axi_araddr;
@@ -130,7 +130,7 @@ logic        s_axi_rready;
     // ───────────────────────────────────────────────
     
        assert property (@(posedge aclk) disable iff (!aresetn)
-                        s_axi_awvalid |-> ##[0:16] s_axi_awready); 
+                        s_axi_awvalid |-> s_axi_awready); 
 
      
        assert property (@(posedge aclk) disable iff (!aresetn)
