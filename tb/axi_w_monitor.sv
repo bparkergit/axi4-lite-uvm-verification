@@ -40,12 +40,12 @@ class axi_w_monitor extends uvm_monitor;
              txn = axi_seq_item::type_id::create("txn"); 
              txn.s_axi_wdata = wdata;
              txn.s_axi_wstrb = wstrb;
-             txn.s_axi_wvalid  = 1'b1;
-             txn.s_axi_wready  = 1'b1;
+             txn.s_axi_wvalid  = vif.cb_mon.s_axi_wvalid;
+             txn.s_axi_wready  = vif.cb_mon.s_axi_wready;
              txn.w_seen = 1'b1;
              txn.is_write = 1'b1;
            
-              $display("w monitor sending data=0x%08h wstrb=%b", wdata, wstrb);
+             $display("%d: w monitor sending data=0x%08h wstrb=%b", $time, wdata, wstrb);
               
             ap.write(txn);
 

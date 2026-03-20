@@ -87,10 +87,10 @@ class axi_scoreboard extends uvm_scoreboard;
           $display("W data  = %h strb=%h", w.s_axi_wdata, w.s_axi_wstrb);
           
           
-          addr = aw.s_axi_awaddr;  // word-aligned
+          addr = aw.s_axi_awaddr ;  // word-aligned
 
 
-          current = model_mem.exists(addr) ? model_mem[addr] : 0;
+          current = model_mem.exists(addr[3:2]) ? model_mem[addr[3:2]] : 0;
           masked_data = current;
 
           for (byte_idx = 0; byte_idx < 4; byte_idx++) begin
@@ -100,7 +100,7 @@ class axi_scoreboard extends uvm_scoreboard;
           end
 
         
-          model_mem[addr] = masked_data;
+          model_mem[addr[3:2]] = masked_data;
 
           `uvm_info("SCB_WR", $sformatf("Write addr 0x%08h: masked data=0x%08h (wstrb=%b)", 
                                           addr, masked_data, w.s_axi_wstrb), UVM_LOW)
@@ -125,7 +125,7 @@ class axi_scoreboard extends uvm_scoreboard;
   		addr = ar_q.pop_front();
   		data = r_q.pop_front();
 
-  		expected = model_mem.exists(addr) ? model_mem[addr] : 0;
+        expected = model_mem.exists(addr[3:2]) ? model_mem[addr[3:2]] : 0;
         
   	
         if (data !== expected)       
