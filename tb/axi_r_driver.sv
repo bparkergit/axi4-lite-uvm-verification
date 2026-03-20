@@ -24,8 +24,11 @@ class axi_r_driver extends uvm_driver #(axi_seq_item);
         forever begin
           seq_item_port.get_next_item(item);
         
-          if(!item.is_write)   
-            drive_read(item);
+          fork begin
+            drive_ar_channel(item);
+            drive_r_channel(item);
+          end
+          join
               
           seq_item_port.item_done();
 
@@ -34,29 +37,40 @@ class axi_r_driver extends uvm_driver #(axi_seq_item);
         
 
         
-  task drive_read(axi_seq_item item); 
+  task drive_r_channel(axi_seq_item item); 
       
   repeat(item.r_delay) @(vif.cb_drv); // random delayed start
   
-      vif.cb_drv.s_axi_araddr <= item.s_axi_araddr;
-      vif.cb_drv.s_axi_arprot   <= item.s_axi_arprot;
-     
-      
+
       // Adress wait for ready then valid goes low
-      vif.cb_drv.s_axi_arvalid   <= 1;
+      vif.cb_drv.s_axi_rready   <= 1;
       
-      wait(vif.cb_drv.s_axi_arready);
-      @(vif.cb_drv);
-      vif.cb_drv.s_axi_arvalid <= 0;
-      
-      // Data ready wait for valid then ready goes low
-      vif.cb_drv.s_axi_rready <= 1;
-      
-      wait(vif.cb_drv.s_axi_rvalid);
+    wait(vif.cb_drv.s_axi_rvalid);
       @(vif.cb_drv);
       vif.cb_drv.s_axi_rready <= 0;
+     
       
   endtask
+    
+     task drive_ar_channel(axi_seq_item item);
+
+
+        // Data channel
+   repeat(item.ar_delay) @(vif.cb_drv);
+          
+        vif.cb_drv.s_axi_araddr  <= item.s_axi_araddr;
+
+        // Read address valid wait for ready
+        vif.cb_drv.s_axi_arvalid <= 1;
+
+        wait(vif.cb_drv.s_axi_arready);
+        @(vif.cb_drv);
+        vif.cb_drv.s_axi_arvalid <= 0;
+
+
+
+endtask
+    
         
         
 endclass

@@ -1,12 +1,12 @@
-class axi_w_monitor extends uvm_monitor;
-    `uvm_component_utils(axi_w_monitor)
+class axi_aw_monitor extends uvm_monitor;
+  `uvm_component_utils(axi_aw_monitor)
 
     uvm_analysis_port #(axi_seq_item) ap;
 
 
     virtual axi_if.MONITOR vif;
 
-  function new(string name = "axi_w_monitor", uvm_component parent);
+  function new(string name = "axi_aw_monitor", uvm_component parent);
         super.new(name, parent);
     endfunction
 
@@ -21,9 +21,7 @@ class axi_w_monitor extends uvm_monitor;
     task run_phase(uvm_phase phase);
       axi_seq_item txn;
  
-      logic [31:0] wdata;
-      logic [3:0] wstrb;
-      
+      logic [31:0] addr;
       
       
         forever begin
@@ -33,20 +31,17 @@ class axi_w_monitor extends uvm_monitor;
           
 
             // Write Data handshake
-            if (vif.cb_mon.s_axi_wvalid && vif.cb_mon.s_axi_wready) begin
-                wdata   = vif.cb_mon.s_axi_wdata;
-                wstrb   = vif.cb_mon.s_axi_wstrb;
+          if (vif.cb_mon.s_axi_awvalid && vif.cb_mon.s_axi_awready) begin
+                addr   = vif.cb_mon.s_axi_awaddr;
 
              txn = axi_seq_item::type_id::create("txn"); 
-             txn.s_axi_wdata = wdata;
-             txn.s_axi_wstrb = wstrb;
-             txn.s_axi_wvalid  = 1'b1;
-             txn.s_axi_wready  = 1'b1;
-             txn.w_seen = 1'b1;
+             txn.s_axi_awaddr = addr;
+             txn.s_axi_awvalid  = 1'b1;
+             txn.s_axi_awready  = 1'b1;
+             txn.aw_seen = 1'b1;
              txn.is_write = 1'b1;
            
-              $display("w monitor sending 0x%08h", wdata);
-              
+            $display("aw monitor sending 0x%08h", addr);
             ap.write(txn);
 
           end

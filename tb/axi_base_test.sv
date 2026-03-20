@@ -21,10 +21,9 @@ class axi_base_test extends uvm_test;
 
         phase.raise_objection(this);
 
-          `uvm_info(get_type_name(), "Starting axi_write_sequence and axi_read_sequence", UVM_LOW)
+    `uvm_info(get_type_name(), "Starting write then read sequence", UVM_LOW)
 
           vseq = wr_rd_vseq::type_id::create("vseq");
-          
           vseq.start(env.vseqr);
           
 

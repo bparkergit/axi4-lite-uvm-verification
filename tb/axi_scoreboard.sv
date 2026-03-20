@@ -6,8 +6,8 @@ class axi_scoreboard extends uvm_scoreboard;
 
     // Analysis port from monitor
     uvm_analysis_imp #(axi_seq_item, axi_scoreboard) imp;
-    uvm_analysis_imp_w #(axi_seq_item, axi_scoreboard) w_imp;
-    uvm_analysis_imp_aw #(axi_seq_item, axi_scoreboard) aw_imp;
+  uvm_analysis_imp_w #(axi_seq_item, axi_scoreboard) imp_w;
+  uvm_analysis_imp_aw #(axi_seq_item, axi_scoreboard) imp_aw;
   
     virtual axi_if vif;
 
@@ -15,6 +15,7 @@ class axi_scoreboard extends uvm_scoreboard;
     axi_seq_item aw_q[$];
     axi_seq_item w_q[$];
     axi_seq_item r_q[$];
+    axi_seq_item ar_q[$];
   
     // Memory model: address → expected 32-bit data
     bit [31:0] model_mem[bit [31:0]];
@@ -28,6 +29,7 @@ class axi_scoreboard extends uvm_scoreboard;
     int        byte_idx;
 
     // Local variables for read comparison
+    bit [31:0] data;
     bit [31:0] expected;
 
     function new(string name = "axi_scoreboard", uvm_component parent);
@@ -38,8 +40,8 @@ class axi_scoreboard extends uvm_scoreboard;
       super.build_phase(phase);
       
       imp = new("imp", this);      
-      w_imp = new("w_imp", this);
-      aw_imp = new("aw_imp", this);
+      imp_w = new("imp_w", this);
+      imp_aw = new("imp_aw", this);
 
       if (!uvm_config_db#(virtual axi_if)::get(this, "", "vif", vif))
           `uvm_fatal("NO_VIF", "Virtual interface not set in scoreboard")
@@ -99,31 +101,42 @@ class axi_scoreboard extends uvm_scoreboard;
 
         // Handle reads
       if (txn.s_axi_arvalid && txn.s_axi_arready)begin 
-            r_q.push_back(txn);
+            ar_q.push_back(txn);
        
       end
+      
+
+        
 
       if(txn.s_axi_rvalid && txn.s_axi_rready) begin
-            addr = r_q.pop_front().s_axi_araddr ;
+        
+        if(ar_q.size() == 0 || r_q.size() == 0)
+                r_q.push_back(txn);   
+              else begin
+            	addr = ar_q.pop_front().s_axi_araddr ;
+                data = r_q.pop_front().s_axi_wdata;
+                
             expected = model_mem.exists(addr) ? model_mem[addr] : 0;
 
             `uvm_info("SCB_RD", $sformatf("Read addr 0x%08h: got=0x%08h  exp=0x%08h", 
-                                           addr, txn.s_axi_rdata, expected), UVM_LOW)
+                                           addr, data, expected), UVM_LOW)
 
-        // Check for X/Z
-        if ($isunknown(txn.s_axi_rdata)) begin
-                `uvm_error("X_DETECTED", $sformatf("Read data X/Z at 0x%08h: %0h", addr, txn.s_axi_rdata))
-                return;   
-        end
+            // Check for X/Z
+            if ($isunknown(txn.s_axi_rdata)) begin
+                    `uvm_error("X_DETECTED", $sformatf("Read data X/Z at 0x%08h: %0h", addr, txn.s_axi_rdata))
+                    return;   
+            end
 
             // Compare
             if (txn.s_axi_rdata !== expected) begin
                 `uvm_error("DATA_MISMATCH", 
                            $sformatf("Addr 0x%08h: exp 0x%08h  got 0x%08h", 
                                      addr, expected, txn.s_axi_rdata))
-            end else begin
+            
+             end else
               `uvm_info("MATCH", $sformatf("Addr 0x%08h: 0x%08h OK", addr, txn.s_axi_rdata), UVM_LOW)
-            end
+              
+              end
         end
     endfunction
 

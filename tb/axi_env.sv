@@ -24,8 +24,9 @@ class axi_env extends uvm_env;
     endfunction
   
   function void connect_phase(uvm_phase phase);
-    r_agent.mon.ap.connect(scoreboard.imp);
-    w_agent.mon.ap.connect(scoreboard.w_imp);
+    r_agent.ap.connect(scoreboard.imp);
+    w_agent.w_ap.connect(scoreboard.imp_w);
+    w_agent.aw_ap.connect(scoreboard.imp_aw);
     
     vseqr.w_sqr  = w_agent.sqr;
     vseqr.r_sqr  = r_agent.sqr;
