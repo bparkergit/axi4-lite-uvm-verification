@@ -32,9 +32,30 @@ class axi_r_monitor extends uvm_monitor;
                 txn.s_axi_rdata   = vif.cb_mon.s_axi_rdata;
                 txn.s_axi_rresp   = vif.cb_mon.s_axi_rresp;
      
-              	txn.s_axi_rvalid = 1'b1;
-              	txn.s_axi_rready = 1'b1;
+              	txn.s_axi_arvalid = vif.cb_mon.s_axi_arvalid;
+              	txn.s_axi_arready = vif.cb_mon.s_axi_arready;                
+                txn.s_axi_rvalid = vif.cb_mon.s_axi_rvalid;
+              	txn.s_axi_rready = vif.cb_mon.s_axi_rready;
 				txn.is_write = 1'b0;
+              
+              $display("r monitor sending 0x%08h", txn.s_axi_rdata);
+                ap.write(txn);
+              
+            end
+          
+            // Read Address handshake 
+          if (vif.cb_mon.s_axi_arvalid && vif.cb_mon.s_axi_arready) begin
+              	txn = axi_seq_item::type_id::create("txn");
+                txn.s_axi_araddr   = vif.cb_mon.s_axi_araddr;
+     			txn.s_axi_rdata   = vif.cb_mon.s_axi_rdata;
+            
+              	txn.s_axi_arvalid = vif.cb_mon.s_axi_arvalid;
+              	txn.s_axi_arready = vif.cb_mon.s_axi_arready;                
+                txn.s_axi_rvalid = vif.cb_mon.s_axi_rvalid;
+              	txn.s_axi_rready = vif.cb_mon.s_axi_rready;
+				txn.is_write = 1'b0;
+              
+            $display("ar monitor sending 0x%08h", txn.s_axi_araddr);
                 ap.write(txn);
               
             end

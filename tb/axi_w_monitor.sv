@@ -45,7 +45,7 @@ class axi_w_monitor extends uvm_monitor;
              txn.w_seen = 1'b1;
              txn.is_write = 1'b1;
            
-              $display("w monitor sending 0x%08h", wdata);
+              $display("w monitor sending data=0x%08h wstrb=%b", wdata, wstrb);
               
             ap.write(txn);
 
