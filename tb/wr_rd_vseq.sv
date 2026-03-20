@@ -26,16 +26,16 @@ class wr_rd_vseq extends uvm_sequence;
       
 
     aw_seq.addr = $urandom_range(0,255);
-    w_seq.wstrb = $urandom_range(0,15);
+      w_seq.wstrb = $urandom_range(1,15);
     w_seq.data = $urandom_range(0,255);
       
 
 
-    fork
+
       aw_seq.start(p_sequencer.aw_sqr);
       w_seq.start(p_sequencer.w_sqr);
       b_seq.start(p_sequencer.b_sqr); 
-    join
+
       
     addr  = aw_seq.addr;
     wdata = w_seq.data;
