@@ -6,7 +6,19 @@ UVM testbench for a 4-entry AXI4 Lite slave interface (32-bit data width).
 
 <img width="2481" height="601" alt="Screenshot 2026-03-06 084212" src="https://github.com/user-attachments/assets/0cef567c-74e9-4599-93f1-802a141cb6ec" />
 
-<img width="843" height="126" alt="Screenshot 2026-04-10 210618" src="https://github.com/user-attachments/assets/db2408f7-831c-4816-aed6-7e0e3bdaaa13" />
+## Coverpoints
+- wstrb 
+- is_write 
+- addr 
+- resp 
+- aw_w_order 
+- is_write x addr;
+- aw_w_order x is_write
+
+## ignore bins
+- !is_write && aw_w_order
+
+coverage : 90.17% 
 
 ## Structure
 - `rtl/`       : DUT (axi4_lite_slave.sv)
